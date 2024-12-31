@@ -24,6 +24,7 @@ dependencies:
   oktoast: ^3.4.0
   dio: ^5.7.0
   connectivity_plus: ^6.1.1
+  store_checker: ^1.6.0
 
 dev_dependencies:
   flutter_test:

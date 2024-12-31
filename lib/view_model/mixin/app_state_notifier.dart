@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stun_kit/models/exceptions/api_exception.dart';
-import 'app_state.dart';
+import 'package:stun_kit/view_model/models/app_state.dart';
 
 class AppStateNotifier extends ChangeNotifier {
   AppState _state = InitialState();
   AppState get state => _state;
 
-  void setState(AppState state, [bool silent = false]) {
+  void setState(AppState state) {
     if (_state == state) return;
     _state = state;
-
-    if (silent) return;
     notifyListeners();
+  }
+
+  void setStateSilent(AppState state) {
+    if (_state == state) return;
+    _state = state;
   }
 
   void setStateByException(Object exception) {

@@ -1,6 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
 
-enum UrlLauncherMode {
+enum UrlLaunchMode {
   platformDefault,
   inAppWebView,
   inAppBrowserView,
@@ -8,18 +8,18 @@ enum UrlLauncherMode {
   externalNonBrowserApplication,
 }
 
-extension UrlLauncherModeExt on UrlLauncherMode {
+extension UrlLaunchModeExt on UrlLaunchMode {
   LaunchMode toLaunchMode() {
     switch (this) {
-      case UrlLauncherMode.platformDefault:
+      case UrlLaunchMode.platformDefault:
         return LaunchMode.platformDefault;
-      case UrlLauncherMode.inAppWebView:
+      case UrlLaunchMode.inAppWebView:
         return LaunchMode.inAppWebView;
-      case UrlLauncherMode.inAppBrowserView:
+      case UrlLaunchMode.inAppBrowserView:
         return LaunchMode.inAppBrowserView;
-      case UrlLauncherMode.externalApplication:
+      case UrlLaunchMode.externalApplication:
         return LaunchMode.externalApplication;
-      case UrlLauncherMode.externalNonBrowserApplication:
+      case UrlLaunchMode.externalNonBrowserApplication:
         return LaunchMode.externalNonBrowserApplication;
     }
   }

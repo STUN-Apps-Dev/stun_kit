@@ -21,7 +21,7 @@ class UrlLauncher {
   static Future<bool> launchUrl({
     required String url,
     String webOnlyWindowName = '_blank',
-    UrlLauncherMode mode = UrlLauncherMode.platformDefault,
+    UrlLaunchMode mode = UrlLaunchMode.platformDefault,
   }) async {
     return launchUrlString(
       url,
