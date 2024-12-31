@@ -25,9 +25,10 @@ abstract class DioApiClient implements ApiClient {
 
   @override
   Future<Map<String, dynamic>> delete(
-    String method, [
+    String method, {
     Map<String, dynamic> queryParameters = const {},
-  ]) async {
+    Map<String, dynamic> headers = const {},
+  }) async {
     try {
       final response = await _client.delete<Map<String, dynamic>>(
         method,
@@ -42,9 +43,10 @@ abstract class DioApiClient implements ApiClient {
 
   @override
   Future<Map<String, dynamic>> get(
-    String method, [
+    String method, {
     Map<String, dynamic> queryParameters = const {},
-  ]) async {
+    Map<String, dynamic> headers = const {},
+  }) async {
     try {
       final response = await _client.get<Map<String, dynamic>>(
         method,
@@ -82,10 +84,11 @@ abstract class DioApiClient implements ApiClient {
 
   @override
   Future<Map<String, dynamic>> put(
-    String method, [
+    String method, {
     Map<String, dynamic> queryParameters = const {},
+    Map<String, dynamic> headers = const {},
     Map<String, dynamic> data = const {},
-  ]) async {
+  }) async {
     try {
       final response = await _client.put<Map<String, dynamic>>(
         method,

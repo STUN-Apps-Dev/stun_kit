@@ -1,8 +1,9 @@
 abstract class ApiClient {
   Future<Map<String, dynamic>> get(
-    String method, [
+    String method, {
     Map<String, dynamic> queryParameters = const {},
-  ]);
+    Map<String, dynamic> headers = const {},
+  });
 
   Future<Map<String, dynamic>> post(
     String method, {
@@ -12,15 +13,17 @@ abstract class ApiClient {
   });
 
   Future<Map<String, dynamic>> put(
-    String method, [
+    String method, {
     Map<String, dynamic> queryParameters = const {},
+    Map<String, dynamic> headers = const {},
     Map<String, dynamic> data = const {},
-  ]);
+  });
 
   Future<Map<String, dynamic>> delete(
-    String method, [
+    String method, {
     Map<String, dynamic> queryParameters = const {},
-  ]);
+    Map<String, dynamic> headers = const {},
+  });
 
   Map<String, dynamic> formatApiException(Object? data);
 }
