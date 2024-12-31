@@ -1,6 +1,6 @@
 # Changelog
 
-С ченджлогом на русском языке можно ознакомиться по этой [ссылке](https://github.com/STUN-Apps-Dev/stun_consent/blob/master/CHANGELOG_RU.md).
+С ченджлогом на русском языке можно ознакомиться по этой [ссылке](https://github.com/STUN-Apps-Dev/stun_kit/blob/master/CHANGELOG_RU.md).
 
 ## 1.0.0
 ### Added
