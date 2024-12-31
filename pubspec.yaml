@@ -6,7 +6,7 @@ repository: https://github.com/STUN-Apps-Dev/stun_kit
 issue_tracker: https://github.com/STUN-Apps-Dev/stun_kit/issues
 
 environment:
-  sdk: ">=2.19.2 <4.0.0"
+  sdk: ^3.5.4
   flutter: ">=1.17.0"
 
 dependencies:
@@ -18,6 +18,10 @@ dependencies:
   bugsnag_flutter: ^4.1.0
   logger: ^2.5.0
   url_launcher: ^6.3.1
+  package_info_plus: ^8.1.2
+  yandex_mobileads: ^7.5.0
+  auto_route: ^9.2.2
+  oktoast: ^3.4.0
 
 dev_dependencies:
   flutter_test:
