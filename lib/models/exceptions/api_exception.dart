@@ -1,19 +1,21 @@
 import 'package:stun_kit/models/exceptions/app_exception.dart';
 
-abstract class ApiException extends AppException {
+class ApiException extends AppException {
   final ApiExceptionType type;
-  final int? statusCode;
+  final int statusCode;
+  final Map<String, dynamic> errors;
 
   ApiException({
     super.error,
     super.stackTrace,
     required this.type,
-    this.statusCode,
+    this.statusCode = -1,
+    this.errors = const {},
   });
 
   @override
   String toString() {
-    return 'ApiException{error: $error, stackTrace: $stackTrace, type: $type, statusCode: $statusCode}';
+    return 'ApiException{type: $type, statusCode: $statusCode, errors: $errors}';
   }
 }
 

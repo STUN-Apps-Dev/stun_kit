@@ -1,4 +1,4 @@
-abstract class AppException implements Exception {
+class AppException implements Exception {
   final dynamic error;
   late final StackTrace stackTrace;
 

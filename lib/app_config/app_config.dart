@@ -3,8 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 abstract class AppConfig {
   AppConfig._();
 
-  static Future<void> load() {
-    return dotenv.load(fileName: ".env");
+  static Future<void> init() {
+    return dotenv.load(fileName: '.env');
   }
 
   static String debugerKey(final String key) {

@@ -22,6 +22,8 @@ dependencies:
   yandex_mobileads: ^7.5.0
   auto_route: ^9.2.2
   oktoast: ^3.4.0
+  dio: ^5.7.0
+  connectivity_plus: ^6.1.1
 
 dev_dependencies:
   flutter_test:
