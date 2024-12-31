@@ -1,39 +1,79 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Stun Kit
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+Пакет Flutter с общими архитектурными классами для упрощения разработки и организации приложений.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## Локализация
+Please refer to the documentation in English at this [link](https://github.com/STUN-Apps-Dev/stun_kit/blob/main/README.md).
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Начало работы
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+Добавьте следующую строку в секцию `dependencies` вашего `pubspec.yaml`:
+```yaml
+dependencies:
+  stun_kit: <latest-version>
+```
+После этого выполните команду:
+```shell
+flutter pub get
 ```
 
-## Additional information
+## Примеры использования
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## ViewModel
+
+Архитектурная концепция подразумевает следующие тезизы:
+- Если на экране выполняются какие-то действия, то для него создаётся `ViewModel`.
+- В классе `ViewModel` описываются методы, хранится состояние, которое применяется на экране.
+- `ViewModel` может быть унаследована от `ChangeNotifier` (опционально).
+- У `ViewModel` может быть состояние (`AppState`) (опционально).
+- Для подключения состояния необходимо унаследовать `ViewModel` от `AppStateNotifier`.
+
+### AppState
+`AppState` — базовый класс для состояния экрана.
+
+От него наследуются базовые состояния.
+
+**Cписок базовых состояний:**
+- `InitialState` — стартовое состояние
+- `LoadingState` — загрузка
+- `ApiErrorState` — ошибка связанная с заполнением данных
+- `BadRequestState` — страница не найдена (404)
+- `NoInternetState` — таймаут, нет интернета
+- `InternalErrorState` — непредвиденная ошибка
+
+### AppStateNotifier
+Это миксин для `ViewModel`, отвечающий за установку одного из базовых состояний. Наследуется от `ChangeNotifier`.
+
+Для установки состояния миксин предоставляет несколько методов.
+
+**Список методов:**
+- `setState(AppState)` — устанавливает состояние экрана
+- `setStateSilent(AppState)` — устанавливает состояние экрана без вызова `notifyListeners()`
+- `setStateByException(Object)` — устанавливает состояние в зависимости от ошибки переданной в аргументах
+
+### AppStateBuilder
+`AppStateBuilder` используется для отображения интерфейса в зависимости от состояния экрана.
+
+**Аргументы конструктора:**
+
+```dart
+  const AppStateBuilder({
+    super.key,
+    required this.builder,
+    this.initialState,
+    this.loadingState,
+    this.apiErrorState,
+    this.badRequestState,
+    this.noInternetState,
+    this.internalState,
+  });
+```
+
+`builder` вызывается если установлено состояние, но для этого состояния не определен виджет.
+
+**Пример**: `loadingState` == `null`, тогда вызывается `builder`.
+
+
+
+## Пример
+Полный пример использования доступен в папке [example/](https://github.com/STUN-Apps-Dev/stun_kit)).

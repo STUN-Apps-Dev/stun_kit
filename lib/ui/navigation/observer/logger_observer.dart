@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stun_kit/library/printer/printer.dart';
-import 'package:stun_kit/ui/navigation/navigation/app_navigator.dart';
+import 'package:stun_kit/ui/navigation/app_router.dart';
 
 class LoggerObserver extends AutoRouterObserver {
   @override
