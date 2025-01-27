@@ -3,9 +3,9 @@ import 'package:stun_kit/library/url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UrlLauncher {
-  static Future<bool> launchWhatsApp(String url) async {
-    final webUrl = 'https://api.whatsapp.com/send?phone=$url';
-    final mobileUrl = 'whatsapp://send/?phone=$url';
+  static Future<bool> launchWhatsApp(String phone) async {
+    final webUrl = 'https://api.whatsapp.com/send?phone=$phone';
+    final mobileUrl = 'whatsapp://send/?phone=$phone';
 
     return launchUrlString(kIsWeb ? webUrl : mobileUrl);
   }
@@ -30,8 +30,8 @@ class UrlLauncher {
     );
   }
 
-  static String createValidUrl(String value) {
-    return value.replaceAll('/#', '').replaceAll(r'\', '');
+  static String createValidUrl(String url) {
+    return url.replaceAll('/#', '').replaceAll(r'\', '');
   }
 
   static Future<bool> canLaunchUrl(String url) async {

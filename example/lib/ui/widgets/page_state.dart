@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stun_kit/ui/themes/extensions/theme_extensions.dart';
+import 'package:stun_kit/extensions/theme_extensions.dart';
 
 class PageStateWidget extends StatelessWidget {
   final String title;

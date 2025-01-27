@@ -36,11 +36,11 @@ class PaginatorExampleVM extends AppStateNotifier {
         return PaginatorResponse(
           currentPage: response.currentPage,
           lastPage: response.lastPage,
+          data: response.data,
           perPage: response.perPage,
           total: response.to,
           from: response.from,
           to: response.to,
-          data: response.data,
         );
       });
       setState(InitialState());

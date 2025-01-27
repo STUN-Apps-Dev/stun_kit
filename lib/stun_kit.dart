@@ -29,7 +29,7 @@ export 'ui/app/base_app.dart';
 export 'ui/navigation/app_router.dart';
 export 'ui/navigation/navigation.dart';
 export 'ui/navigation/observer/logger_observer.dart';
-export 'ui/themes/extensions/theme_extensions.dart';
+export 'extensions/theme_extensions.dart';
 export 'view_model/mixin/app_info_view_model.dart';
 export 'view_model/mixin/app_state_notifier.dart';
 export 'view_model/models/app_info.dart';
