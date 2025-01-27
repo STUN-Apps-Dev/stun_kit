@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:example/ui/navigation/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:stun_kit/library/printer/printer.dart';
-import 'package:stun_kit/ui/app/base_app.dart';
+import 'package:stun_kit/stun_kit.dart';
 
 void main() async {
-  runZonedGuarded(() {
+  runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    await AppConfig.init();
 
     AppRouterFactory.create();
 

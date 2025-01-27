@@ -49,4 +49,8 @@ abstract mixin class AppInfoViewModel {
         return false;
     }
   }
+
+  Future<bool> launcEmail() {
+    return UrlLauncher.launchEmail(appInfo.developerEmail);
+  }
 }

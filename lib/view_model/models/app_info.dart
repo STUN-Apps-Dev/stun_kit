@@ -12,6 +12,8 @@ class AppInfo {
   final String appStoreAppUrl;
   final String appStoreDeveloperUrl;
 
+  final String developerEmail;
+
   AppInfo({
     required this.privacyPolicyAndroidUrl,
     required this.privacyPolicyAppStoreUrl,
@@ -21,5 +23,6 @@ class AppInfo {
     required this.playStoreDeveloperUrl,
     required this.appStoreAppUrl,
     required this.appStoreDeveloperUrl,
+    required this.developerEmail,
   });
 }

@@ -102,7 +102,7 @@ abstract class DioApiClient implements ApiClient {
     }
   }
 
-  Future<AppException> captureException(DioException error) async {
+  Future<ApiException> captureException(DioException error) async {
     final errors = formatApiException(error.response?.data ?? {});
 
     switch (error.type) {

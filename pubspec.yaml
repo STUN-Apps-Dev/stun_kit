@@ -26,7 +26,6 @@ dependencies:
   dio: ^5.7.0
   connectivity_plus: ^6.1.1
   store_checker: ^1.6.0
-  adaptive_theme: ^3.6.0
 
 dev_dependencies:
   flutter_test:

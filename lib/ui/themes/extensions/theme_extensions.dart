@@ -1,28 +1,7 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 extension ContextExt on BuildContext {
   ThemeData get theme => Theme.of(this);
-
-  bool get isDark {
-    return _brightness == Brightness.dark;
-  }
-
-  bool get isLight {
-    return _brightness == Brightness.light;
-  }
-
-  Brightness get _brightness {
-    final themeMode = AdaptiveTheme.of(this).mode;
-
-    if (themeMode.isDark) {
-      return Brightness.light;
-    } else if (themeMode.isLight) {
-      return Brightness.dark;
-    } else {
-      return MediaQuery.of(this).platformBrightness;
-    }
-  }
 }
 
 extension ThemeDataExt on ThemeData {
