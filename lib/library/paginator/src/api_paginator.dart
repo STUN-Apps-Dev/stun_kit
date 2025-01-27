@@ -9,15 +9,15 @@ class ApiPaginator<T> implements Paginator<T> {
   final List<T> _data = [];
   PaginatorResponse<T>? _lastResponse;
 
-  Timer? _debounceTimer;
+  Timer? _delayTimer;
 
-  Future<List<T>> loadNextPageDebounce(PaginatorCallback<T> action) async {
+  Future<List<T>> loadNextPageWithDelay(PaginatorCallback<T> action) async {
     final completer = Completer<List<T>>();
 
-    _debounceTimer?.cancel();
+    _delayTimer?.cancel();
 
-    _debounceTimer = Timer(_kDebounce, () {
-      _debounceTimer = null;
+    _delayTimer = Timer(_kDebounce, () {
+      _delayTimer = null;
       completer.complete(loadNextPage(action));
     });
 
@@ -59,6 +59,6 @@ class ApiPaginator<T> implements Paginator<T> {
 
   @override
   void dispose() {
-    _debounceTimer?.cancel();
+    _delayTimer?.cancel();
   }
 }

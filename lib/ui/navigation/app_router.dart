@@ -11,7 +11,7 @@ abstract class AppRouter {
 
   static bool get isDialogOpened => _isDialogOpened;
 
-  static registerInstance<T extends RootStackRouter>(T router) {
+  static void registerInstance<T extends RootStackRouter>(T router) {
     _router = router;
   }
 

@@ -14,9 +14,9 @@ class InitialScreen extends StatelessWidget {
     ),
     OutlinedButton(
       onPressed: () {
-        AppRouter.pushNamed(AppRoutes.viewModelExample);
+        AppRouter.pushNamed(AppRoutes.paginatorExample);
       },
-      child: Text('Storyboard'),
+      child: Text('Paginator Example'),
     ),
   ];
 

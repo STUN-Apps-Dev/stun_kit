@@ -6,7 +6,6 @@ export 'data/api/client.dart';
 export 'data/services/analytic_service.dart';
 export 'data/services/application_service.dart';
 export 'data/services/exception_service.dart';
-export 'data/services/theme_service.dart';
 export 'domain/api/dio/dio_api_client.dart';
 export 'domain/api/dio/interceptors/log_interceptor.dart';
 export 'domain/services/application_service.dart';

@@ -6,8 +6,10 @@ class AppStateNotifier extends ChangeNotifier {
   AppState _state = InitialState();
   AppState get state => _state;
 
+  bool _mounted = true;
+
   void setState(AppState state) {
-    if (_state == state) return;
+    if (_state == state || !_mounted) return;
     _state = state;
     notifyListeners();
   }
@@ -34,5 +36,11 @@ class AppStateNotifier extends ChangeNotifier {
     } else {
       setState(InternalErrorState(exception));
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mounted = false;
   }
 }

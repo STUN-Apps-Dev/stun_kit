@@ -31,6 +31,25 @@ class InitialRoute extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [_i1.PaginatorExampleScreenFactory]
+class PaginatorExampleRoute extends _i2.PageRouteInfo<void> {
+  const PaginatorExampleRoute({List<_i2.PageRouteInfo>? children})
+      : super(
+          PaginatorExampleRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PaginatorExampleRoute';
+
+  static _i2.PageInfo page = _i2.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.PaginatorExampleScreenFactory();
+    },
+  );
+}
+
+/// generated route for
 /// [_i1.ViewModelExampleScreenFactory]
 class ViewModelExampleRoute extends _i2.PageRouteInfo<void> {
   const ViewModelExampleRoute({List<_i2.PageRouteInfo>? children})

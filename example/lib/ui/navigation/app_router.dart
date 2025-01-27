@@ -18,6 +18,10 @@ class _AppRouter extends RootStackRouter {
         path: AppRoutes.viewModelExample,
         page: ViewModelExampleRoute.page,
       ),
+      AutoRoute(
+        path: AppRoutes.paginatorExample,
+        page: PaginatorExampleRoute.page,
+      ),
     ];
   }
 }

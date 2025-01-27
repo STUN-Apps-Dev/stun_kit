@@ -19,7 +19,7 @@ class ViewModelExampleScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _StateObserverWidget(),
+            _ViewStateObserverWidget(),
             SizedBox(height: 16),
             _StateDropDownWidget(),
             SizedBox(height: 16),
@@ -73,8 +73,8 @@ class _StateDropDownWidget extends StatelessWidget {
   }
 }
 
-class _StateObserverWidget extends StatelessWidget {
-  const _StateObserverWidget();
+class _ViewStateObserverWidget extends StatelessWidget {
+  const _ViewStateObserverWidget();
 
   @override
   Widget build(BuildContext context) {
