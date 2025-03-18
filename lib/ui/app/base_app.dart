@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:stun_kit/ui/navigation/navigation.dart';
+import 'package:stun_kit/ui/router/router.dart';
 
 class BaseApp extends StatelessWidget {
   final List<Locale> supportedLocales;

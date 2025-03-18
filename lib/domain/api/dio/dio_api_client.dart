@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:stun_kit/app_config/app_config.dart';
+import 'package:stun_kit/config/src/config.dart';
 import 'package:stun_kit/data/api/client.dart';
 import 'package:stun_kit/domain/api/dio/interceptors/log_interceptor.dart';
 import 'package:stun_kit/models/exceptions/exceptions.dart';
@@ -13,7 +13,7 @@ abstract class DioApiClient implements ApiClient {
   void configure();
 
   void setClient(Dio client) {
-    if (AppConfig.apiLogs) {
+    if (EnvConfig.isApiDebug) {
       final logInterceptor = CustomLogInterceptor();
       client.interceptors.add(logInterceptor);
     }

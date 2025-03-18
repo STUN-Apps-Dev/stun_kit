@@ -1,7 +1,7 @@
 // Автоматически сгенерированные экспорты
 library;
 
-export 'app_config/app_config.dart';
+export 'config/src/config.dart';
 export 'data/api/client.dart';
 export 'data/services/analytic_service.dart';
 export 'data/services/application_service.dart';
@@ -18,21 +18,20 @@ export 'library/paginator/src/list_paginator.dart';
 export 'library/paginator/src/paginator.dart';
 export 'library/paginator/src/paginator_response.dart';
 export 'library/printer/printer.dart';
-export 'library/url_launcher/url_launch_mode.dart';
+export 'library/url_launcher/src/url_launch_mode.dart';
 export 'library/url_launcher/url_launcher.dart';
-export 'library/url_launcher/url_launcher_interface.dart';
+export 'library/url_launcher/src/url_launcher_interface.dart';
 export 'models/exceptions/api_exception.dart';
 export 'models/exceptions/app_exception.dart';
 export 'models/exceptions/exceptions.dart';
 export 'stun_kit.dart';
 export 'ui/app/base_app.dart';
-export 'ui/navigation/app_router.dart';
-export 'ui/navigation/navigation.dart';
-export 'ui/navigation/observer/logger_observer.dart';
+export 'ui/router/src/router.dart';
+export 'ui/router/router.dart';
+export 'ui/router/src/observers/logger_observer.dart';
 export 'extensions/theme_extensions.dart';
 export 'view_model/mixin/app_info_view_model.dart';
 export 'view_model/mixin/app_state_notifier.dart';
-export 'view_model/models/app_info.dart';
 export 'view_model/models/app_state.dart';
 export 'view_model/view_model.dart';
 export 'view_model/widgets/app_state_builder.dart';

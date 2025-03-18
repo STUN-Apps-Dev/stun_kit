@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stun_kit/app_config/app_config.dart';
+import 'package:stun_kit/config/src/config.dart';
 import 'package:stun_kit/data/services/exception_service.dart';
 import 'package:stun_kit/library/printer/printer.dart';
 
@@ -11,7 +11,7 @@ class BugsnagService implements ExceptionService {
 
   @override
   Future<void> init() async {
-    if (!kDebugMode) await bugsnag.start(apiKey: AppConfig.debugerKey(_key));
+    if (!kDebugMode) await bugsnag.start(apiKey: EnvConfig.getEnv(_key, ''));
 
     FlutterError.onError = (details) {
       capture(details.exception, details.stack);

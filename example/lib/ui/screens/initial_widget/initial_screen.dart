@@ -1,5 +1,5 @@
-import 'package:example/ui/navigation/app_router.dart';
-import 'package:example/ui/navigation/routes.dart';
+import 'package:example/ui/router/app_router.dart';
+import 'package:example/ui/router/routes.dart';
 import 'package:flutter/material.dart';
 
 class InitialScreen extends StatelessWidget {
