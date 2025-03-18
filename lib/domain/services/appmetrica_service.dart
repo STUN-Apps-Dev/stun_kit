@@ -2,17 +2,24 @@ import 'dart:async';
 
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stun_kit/config/src/config.dart';
+import 'package:stun_kit/config/config.dart';
 import 'package:stun_kit/data/services/analytic_service.dart';
 
+/// Сервис для интеграции с AppMetrica.
+///
+/// Класс [AppMetricaService] реализует [AnalyticService] и предоставляет метод для инициализации
+/// аналитической системы AppMetrica. Если приложение запущено в режиме отладки (debug mode),
+/// инициализация не выполняется.
 class AppMetricaService implements AnalyticService {
-  static const _key = 'APP_METRICA_KEY';
-
+  /// Инициализирует сервис аналитики AppMetrica.
+  ///
+  /// Если приложение запущено в режиме отладки ([kDebugMode]), метод завершает выполнение без инициализации.
+  /// В противном случае, извлекается ключ AppMetrica из переменных окружения и производится активация AppMetrica
+  /// с использованием [AppMetricaConfig].
   @override
-  Future<void> activate() async {
+  Future<void> init() async {
     if (kDebugMode) return;
-    await AppMetrica.activate(AppMetricaConfig(
-      EnvConfig.getEnv(_key, ''),
-    ));
+    final key = EnvConfig.getEnv(EnvConstants.appMetricaKey, '');
+    await AppMetrica.activate(AppMetricaConfig(key));
   }
 }

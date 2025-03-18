@@ -10,7 +10,7 @@ void main() async {
 
     await EnvConfig.init();
 
-    AppRouterFactory.create();
+    AppRouter.registerInstance(MyAppRouter());
 
     runApp(const BaseApp());
   }, (error, stackTrace) {

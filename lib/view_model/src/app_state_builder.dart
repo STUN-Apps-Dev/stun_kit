@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stun_kit/models/exceptions/api_exception.dart';
-import 'package:stun_kit/view_model/models/app_state.dart';
-import 'package:stun_kit/view_model/mixin/app_state_notifier.dart';
+import 'package:stun_kit/view_model/src/mixin/app_state_notifier.dart';
+import 'package:stun_kit/view_model/src/models/app_state.dart';
 
 class AppStateBuilder<T extends AppStateNotifier> extends StatelessWidget {
   final Widget Function() builder;

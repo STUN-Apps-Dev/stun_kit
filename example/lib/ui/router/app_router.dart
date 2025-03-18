@@ -5,7 +5,7 @@ import 'package:stun_kit/ui/router/router.dart';
 export 'package:stun_kit/ui/router/router.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'ScreenFactory,Route')
-class _AppRouter extends RootStackRouter {
+class MyAppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes {
     return [
@@ -23,11 +23,5 @@ class _AppRouter extends RootStackRouter {
         page: PaginatorExampleRoute.page,
       ),
     ];
-  }
-}
-
-class AppRouterFactory {
-  static void create() {
-    AppRouter.registerInstance(_AppRouter());
   }
 }

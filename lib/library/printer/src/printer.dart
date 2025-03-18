@@ -3,12 +3,21 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
+/// Класс для логирования в режиме отладки.
+///
+/// Все методы не работают, если [kDebugMode] == false.
 class Printer {
+  /// Логирует сообщение с помощью [developer.log].
+  ///
+  /// Показывает информацию только в debug-режиме.
   static void log(dynamic message) {
     if (!kDebugMode) return;
     developer.log('$message');
   }
 
+  /// Логирует информационное сообщение с помощью [Logger].
+  ///
+  /// Показывает информацию только в debug-режиме.
   static void i(dynamic message) {
     if (!kDebugMode) return;
 
@@ -22,6 +31,10 @@ class Printer {
     logger.i(message);
   }
 
+  /// Логирует ошибку с помощью [Logger].
+  ///
+  /// Принимает [message], [error] и [stackTrace].
+  /// Показывает информацию только в debug-режиме.
   static void e(
     dynamic message, {
     Object? error,

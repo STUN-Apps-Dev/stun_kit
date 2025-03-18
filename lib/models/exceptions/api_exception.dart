@@ -15,7 +15,7 @@ class ApiException extends AppException {
 
   @override
   String toString() {
-    return 'ApiException{type: $type, statusCode: $statusCode, errors: $errors}';
+    return 'ApiException{type: $type, statusCode: $statusCode, errors: $errors, stackTrace: $stackTrace}';
   }
 }
 
