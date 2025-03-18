@@ -33,7 +33,7 @@ export 'ui/app/base_app.dart';
 export 'ui/router/router.dart';
 export 'ui/router/src/observers/logger_observer.dart';
 export 'ui/router/src/router.dart';
-export 'view_model/src/app_state_builder.dart';
+export 'view_model/src/widgets/app_state_builder.dart';
 export 'view_model/src/mixin/app_info_view_model.dart';
 export 'view_model/src/mixin/app_state_notifier.dart';
 export 'view_model/src/models/app_state.dart';
