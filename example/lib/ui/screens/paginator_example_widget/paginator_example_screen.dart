@@ -13,13 +13,13 @@ class PaginatorExampleScreen extends StatelessWidget {
     final vm = context.watch<PaginatorExampleVM>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Paginator Example'),
+        title: const Text('Paginator Example'),
       ),
       body: LazyLoadScrollView(
         onEndOfPage: vm.fetchTodos,
         scrollOffset: 300,
         isLoading: vm.state is LoadingState,
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
@@ -45,7 +45,7 @@ class _SearchInputWidget extends StatelessWidget {
     final vm = context.read<PaginatorExampleVM>();
 
     return TextFormField(
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         label: Text('Search'),
       ),
       controller: vm.searchController,
@@ -71,7 +71,7 @@ class _ListWidget extends StatelessWidget {
           trailing: Text('${todo.id}'),
         );
       },
-      separatorBuilder: (_, __) => Divider(),
+      separatorBuilder: (_, __) => const Divider(),
       itemCount: todos.length,
     );
   }
@@ -84,14 +84,14 @@ class _ViewStateObserverWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppStateBuilder<PaginatorExampleVM>(
       builder: (vm) {
-        if (vm.todos.isNotEmpty) return SizedBox.shrink();
-        return PageStateWidget.empty();
+        if (vm.todos.isNotEmpty) return const SizedBox.shrink();
+        return const PageStateWidget.empty();
       },
-      loadingState: (_) => PageStateWidget.loading(),
-      apiErrorState: (_, __) => PageStateWidget.server(),
-      badRequestState: (_, __) => PageStateWidget.badRequest(),
-      noInternetState: (_, __) => PageStateWidget.noInternet(),
-      internalState: (_, __) => PageStateWidget.server(
+      loadingState: (_) => const PageStateWidget.loading(),
+      apiErrorState: (_, __) => const PageStateWidget.server(),
+      badRequestState: (_, __) => const PageStateWidget.badRequest(),
+      noInternetState: (_, __) => const PageStateWidget.noInternet(),
+      internalState: (_, __) => const PageStateWidget.server(
         title: 'Не придвиденная ошибка',
       ),
     );

@@ -5,11 +5,11 @@ import 'package:stun_kit/stun_kit.dart';
 
 class TodoService {
   Future<ApiResponse<Todo>> fetchTodos(final TodoFilter filter) async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
 
     final currentPage = filter.page - 1;
     final lastPage = filter.page + 3;
-    final perPage = 20;
+    const perPage = 20;
 
     final result = _generateRandomTodos();
     final searchResult = _searchTodos(result, filter.q);

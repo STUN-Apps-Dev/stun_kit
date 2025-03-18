@@ -25,7 +25,7 @@ class PaginatorExampleVM extends AppStateManager {
 
   Future<void> fetchTodos() async {
     try {
-      setState(LoadingState());
+      setState(const LoadingState());
       await _paginator.loadNextPageWithDelay(() async {
         final response = await _todoService.fetchTodos(
           TodoFilter(
@@ -43,7 +43,7 @@ class PaginatorExampleVM extends AppStateManager {
           to: response.to,
         );
       });
-      setState(InitialState());
+      setState(const InitialState());
     } catch (error, _) {
       setStateByException(error);
     }
@@ -51,7 +51,7 @@ class PaginatorExampleVM extends AppStateManager {
 
   Future<void> _searchTodos() async {
     try {
-      setState(LoadingState());
+      setState(const LoadingState());
       _paginator.reset();
 
       await _paginator.loadNextPageWithDelay(() async {
@@ -71,7 +71,7 @@ class PaginatorExampleVM extends AppStateManager {
           data: response.data,
         );
       });
-      setState(InitialState());
+      setState(const InitialState());
     } catch (error, _) {
       setStateByException(error);
     }

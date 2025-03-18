@@ -5,9 +5,9 @@ class ViewModelExampleVM extends AppStateManager {
 
   Future<void> simulateFetching() async {
     try {
-      setState(LoadingState());
-      await Future.delayed(Duration(seconds: 3));
-      setState(InitialState());
+      setState(const LoadingState());
+      await Future.delayed(const Duration(seconds: 3));
+      setState(const InitialState());
     } catch (error, _) {
       setStateByException(error);
     }
@@ -15,8 +15,8 @@ class ViewModelExampleVM extends AppStateManager {
 
   Future<void> simulateFetchingWithError() async {
     try {
-      setState(LoadingState());
-      await Future.delayed(Duration(seconds: 3));
+      setState(const LoadingState());
+      await Future.delayed(const Duration(seconds: 3));
 
       throw ApiException(type: ApiExceptionType.other);
     } catch (error, _) {

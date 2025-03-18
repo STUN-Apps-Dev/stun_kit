@@ -12,25 +12,25 @@ class ViewModelExampleScreen extends StatelessWidget {
     final vm = context.read<ViewModelExampleVM>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('ViewModel Example'),
+        title: const Text('ViewModel Example'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _ViewStateObserverWidget(),
-            SizedBox(height: 16),
+            const _ViewStateObserverWidget(),
+            const SizedBox(height: 16),
             _StateDropDownWidget(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             OutlinedButton(
               onPressed: vm.simulateFetching,
-              child: Text('Simulate Fetching'),
+              child: const Text('Simulate Fetching'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             OutlinedButton(
               onPressed: vm.simulateFetchingWithError,
-              child: Text('Simulate Fetching With Error'),
+              child: const Text('Simulate Fetching With Error'),
             )
           ],
         ),
@@ -43,8 +43,8 @@ class _StateDropDownWidget extends StatelessWidget {
   static final _exception = ApiException(type: ApiExceptionType.other);
 
   final _states = {
-    'InitialState': InitialState(),
-    'LoadingState': LoadingState(),
+    'InitialState': const InitialState(),
+    'LoadingState': const LoadingState(),
     'ApiErrorState': ApiErrorState(_exception),
     'BadRequestState': BadRequestState(_exception),
     'NoInternetState': NoInternetState(_exception),
@@ -84,17 +84,17 @@ class _ViewStateObserverWidget extends StatelessWidget {
           minHeight: MediaQuery.of(context).size.height / 3,
         ),
         child: AppStateBuilder<ViewModelExampleVM>(
-          builder: (_) => PageStateWidget(
+          builder: (_) => const PageStateWidget(
             title: 'Это состояние никогда не отобразится',
           ),
-          initialState: (_) => PageStateWidget(
+          initialState: (_) => const PageStateWidget(
             title: 'Стартовое состояние',
           ),
-          loadingState: (_) => PageStateWidget.loading(),
-          apiErrorState: (_, __) => PageStateWidget.server(),
-          badRequestState: (_, __) => PageStateWidget.badRequest(),
-          noInternetState: (_, __) => PageStateWidget.noInternet(),
-          internalState: (_, __) => PageStateWidget.server(
+          loadingState: (_) => const PageStateWidget.loading(),
+          apiErrorState: (_, __) => const PageStateWidget.server(),
+          badRequestState: (_, __) => const PageStateWidget.badRequest(),
+          noInternetState: (_, __) => const PageStateWidget.noInternet(),
+          internalState: (_, __) => const PageStateWidget.server(
             title: 'Не придвиденная ошибка',
           ),
         ),

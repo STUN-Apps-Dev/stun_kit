@@ -10,13 +10,13 @@ class InitialScreen extends StatelessWidget {
       onPressed: () {
         AppRouter.pushNamed(AppRoutes.viewModelExample);
       },
-      child: Text('ViewModel Example'),
+      child: const Text('ViewModel Example'),
     ),
     OutlinedButton(
       onPressed: () {
         AppRouter.pushNamed(AppRoutes.paginatorExample);
       },
-      child: Text('Paginator Example'),
+      child: const Text('Paginator Example'),
     ),
   ];
 
@@ -24,12 +24,12 @@ class InitialScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stun Kit Example'),
+        title: const Text('Stun Kit Example'),
         automaticallyImplyLeading: false,
       ),
       body: ListView.separated(
-        padding: EdgeInsets.all(16),
-        separatorBuilder: (_, i) => SizedBox(height: 16),
+        padding: const EdgeInsets.all(16),
+        separatorBuilder: (_, i) => const SizedBox(height: 16),
         itemBuilder: (_, i) => _buttons[i],
         itemCount: _buttons.length,
       ),
