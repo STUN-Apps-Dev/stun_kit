@@ -6,6 +6,7 @@ import 'package:example/ui/screens/view_model_example_widget/view_model_example_
 import 'package:example/ui/screens/view_model_example_widget/view_model_example_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stun_kit/stun_kit.dart';
 
 @RoutePage()
 class InitialScreenFactory extends StatelessWidget {
@@ -23,8 +24,15 @@ class ViewModelExampleScreenFactory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ViewModelExampleVM(),
+    return MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => AppViewModel(appService: AppServiceImpl()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ViewModelExampleVM(exceptionService: BugsnagService()),
+        ),
+      ],
       child: const ViewModelExampleScreen(),
     );
   }
@@ -37,7 +45,7 @@ class PaginatorExampleScreenFactory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => PaginatorExampleVM(),
+      create: (_) => PaginatorExampleVM(exceptionService: BugsnagService()),
       lazy: false,
       child: const PaginatorExampleScreen(),
     );

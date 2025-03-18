@@ -4,7 +4,7 @@ import 'package:example/domain/services/todo_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stun_kit/stun_kit.dart';
 
-class PaginatorExampleVM extends AppStateNotifier {
+class PaginatorExampleVM extends AppStateManager {
   final _paginator = ApiPaginator<Todo>();
 
   List<Todo> get todos => _paginator.data;
@@ -13,7 +13,7 @@ class PaginatorExampleVM extends AppStateNotifier {
 
   final _todoService = TodoService();
 
-  PaginatorExampleVM() {
+  PaginatorExampleVM({required super.exceptionService}) {
     _init();
 
     searchController.addListener(_searchTodos);

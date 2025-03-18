@@ -39,14 +39,14 @@ class BugsnagService implements ExceptionService {
   /// Если приложение не работает в веб-режиме ([kIsWeb]) и не находится в режиме отладки ([kDebugMode]),
   /// отправляет уведомление об ошибке в Bugsnag.
   ///
-  /// [error] — объект ошибки.
+  /// [exception] — объект ошибки.
   /// [stackTrace] — опциональная трассировка стека, связанная с ошибкой.
   @override
-  Future<void> capture(Object error, StackTrace? stackTrace) async {
-    Printer.e('', error: error, stackTrace: stackTrace);
+  Future<void> capture(Object exception, StackTrace? stackTrace) async {
+    Printer.e('', error: exception, stackTrace: stackTrace);
 
     if (!kIsWeb && !kDebugMode) {
-      return bugsnag.notify(error, stackTrace);
+      return bugsnag.notify(exception, stackTrace);
     }
   }
 

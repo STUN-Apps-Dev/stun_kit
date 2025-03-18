@@ -83,16 +83,15 @@ class _ViewStateObserverWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppStateBuilder<PaginatorExampleVM>(
-      builder: () {
-        final vm = context.read<PaginatorExampleVM>();
+      builder: (vm) {
         if (vm.todos.isNotEmpty) return SizedBox.shrink();
         return PageStateWidget.empty();
       },
-      loadingState: () => PageStateWidget.loading(),
-      apiErrorState: (_) => PageStateWidget.server(),
-      badRequestState: (_) => PageStateWidget.badRequest(),
-      noInternetState: (_) => PageStateWidget.noInternet(),
-      internalState: (_) => PageStateWidget.server(
+      loadingState: (_) => PageStateWidget.loading(),
+      apiErrorState: (_, __) => PageStateWidget.server(),
+      badRequestState: (_, __) => PageStateWidget.badRequest(),
+      noInternetState: (_, __) => PageStateWidget.noInternet(),
+      internalState: (_, __) => PageStateWidget.server(
         title: 'Не придвиденная ошибка',
       ),
     );

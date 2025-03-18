@@ -1,6 +1,8 @@
 import 'package:stun_kit/stun_kit.dart';
 
-class ViewModelExampleVM extends AppStateNotifier {
+class ViewModelExampleVM extends AppStateManager {
+  ViewModelExampleVM({required super.exceptionService});
+
   Future<void> simulateFetching() async {
     try {
       setState(LoadingState());

@@ -84,17 +84,17 @@ class _ViewStateObserverWidget extends StatelessWidget {
           minHeight: MediaQuery.of(context).size.height / 3,
         ),
         child: AppStateBuilder<ViewModelExampleVM>(
-          builder: () => PageStateWidget(
+          builder: (_) => PageStateWidget(
             title: 'Это состояние никогда не отобразится',
           ),
-          initialState: () => PageStateWidget(
+          initialState: (_) => PageStateWidget(
             title: 'Стартовое состояние',
           ),
-          loadingState: () => PageStateWidget.loading(),
-          apiErrorState: (_) => PageStateWidget.server(),
-          badRequestState: (_) => PageStateWidget.badRequest(),
-          noInternetState: (_) => PageStateWidget.noInternet(),
-          internalState: (_) => PageStateWidget.server(
+          loadingState: (_) => PageStateWidget.loading(),
+          apiErrorState: (_, __) => PageStateWidget.server(),
+          badRequestState: (_, __) => PageStateWidget.badRequest(),
+          noInternetState: (_, __) => PageStateWidget.noInternet(),
+          internalState: (_, __) => PageStateWidget.server(
             title: 'Не придвиденная ошибка',
           ),
         ),

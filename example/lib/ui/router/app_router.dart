@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:example/ui/router/app_router.gr.dart';
 import 'package:example/ui/router/routes.dart';
-import 'package:stun_kit/ui/router/router.dart';
 export 'package:stun_kit/ui/router/router.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'ScreenFactory,Route')
