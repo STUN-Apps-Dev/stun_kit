@@ -1,10 +1,26 @@
-extension ListExtensions<T> on List<T> {
+/// Расширение для класса List, которое добавляет метод для разбиения списка на части.
+///
+/// Данный метод позволяет разбить исходный список на несколько списков фиксированного размера.
+extension PartionExtensions<T> on List<T> {
+  /// Разбивает список на подсписки заданного размера [size].
+  ///
+  /// Если исходный список пуст или значение [size] меньше или равно нулю, возвращается пустой список.
+  ///
+  /// Пример:
+  /// ```dart
+  /// final numbers = [1, 2, 3, 4, 5, 6, 7];
+  /// final parts = numbers.partion(3);
+  /// // parts = [[1, 2, 3], [4, 5, 6], [7]]
+  /// ```
   List<List<T>> partion(int size) {
     if (isEmpty || size <= 0) return [];
 
     final result = <List<T>>[];
+    // Проходим по списку с шагом, равным размеру части.
     for (var i = 0; i < length; i += size) {
+      // Вычисляем конечный индекс подсписка.
       final end = (i + size < length) ? i + size : length;
+      // Добавляем подсписок в результирующий список.
       result.add(sublist(i, end));
     }
     return result;
