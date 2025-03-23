@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:stun_kit/models/exceptions/app_exception.dart';
 
 /// Исключение для ошибок, возникающих при выполнении API-запросов.
@@ -33,7 +34,17 @@ class ApiException extends AppException {
 
   @override
   String toString() {
-    return 'ApiException{type: $type, statusCode: $statusCode, errors: $errors, stackTrace: $stackTrace}';
+    final errorsAsString = errors.map((key, value) {
+      return MapEntry(key, value.toString());
+    });
+    return jsonEncode({
+      'exception': runtimeType.toString(),
+      'apiExceptionType': type.toString(),
+      'error': error.toString(),
+      'statusCode': statusCode,
+      'errors': errorsAsString,
+      'stackTrace': stackTrace.toString(),
+    });
   }
 }
 

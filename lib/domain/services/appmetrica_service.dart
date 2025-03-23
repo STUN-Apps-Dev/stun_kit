@@ -18,8 +18,9 @@ class AppMetricaService implements AnalyticService {
   /// с использованием [AppMetricaConfig].
   @override
   Future<void> init() async {
-    if (kDebugMode) return;
     final key = EnvConfig.getEnv(EnvConstants.appMetricaKey, '');
+    if (kDebugMode || key.isEmpty) return;
+
     await AppMetrica.activate(AppMetricaConfig(key));
   }
 }

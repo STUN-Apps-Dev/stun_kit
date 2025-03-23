@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// Базовый класс для исключений в приложении.
 ///
 /// Реализует интерфейс [Exception] и хранит описание ошибки вместе со стеком вызова.
@@ -25,6 +27,10 @@ class AppException implements Exception {
 
   @override
   String toString() {
-    return 'AppException{error: $error, stackTrace: $stackTrace}';
+    return jsonEncode({
+      'type': runtimeType.toString(),
+      'error': error.toString(),
+      'stackTrace': stackTrace.toString(),
+    });
   }
 }

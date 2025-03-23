@@ -22,8 +22,8 @@ class BugsnagService implements ExceptionService {
   /// который вызывает метод [capture] для отправки ошибок в Bugsnag.
   @override
   Future<void> init() async {
-    if (!kDebugMode) {
-      final key = EnvConfig.getEnv(EnvConstants.bugsnagKey, '');
+    final key = EnvConfig.getEnv(EnvConstants.bugsnagKey, '');
+    if (!kDebugMode && !kIsWeb && key.isNotEmpty) {
       await bugsnag.start(apiKey: key);
     }
 

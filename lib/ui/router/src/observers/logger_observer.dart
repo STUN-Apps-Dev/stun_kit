@@ -14,7 +14,9 @@ class LoggerObserver extends AutoRouterObserver {
 
   @override
   void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    Printer.i('Tab route visited: ${AppRouter.instance.uri}');
+    if (EnvConfig.isRouterDebug) {
+      Printer.i('Tab route visited: ${AppRouter.instance.uri}');
+    }
   }
 }
 
