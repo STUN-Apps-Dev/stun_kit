@@ -55,8 +55,11 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> headers = const {},
   }) async {
     try {
+      final normalizedHeaders = normalizeHeaders(headers);
+
       final response = await _client.delete<Map<String, dynamic>>(
         method,
+        options: Options(headers: normalizedHeaders),
         queryParameters: queryParameters,
       );
       return response.data ?? {};
@@ -80,8 +83,11 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> headers = const {},
   }) async {
     try {
+      final normalizedHeaders = normalizeHeaders(headers);
+
       final response = await _client.get<Map<String, dynamic>>(
         method,
+        options: Options(headers: normalizedHeaders),
         queryParameters: queryParameters,
       );
       return response.data ?? {};
@@ -110,12 +116,13 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> data = const {},
   }) async {
     try {
-      final isFormData = _checkIsFormData(headers);
+      final normalizedHeaders = normalizeHeaders(headers);
+      final isFormData = _checkIsFormData(normalizedHeaders);
 
       final response = await _client.post<Map<String, dynamic>>(
         method,
         queryParameters: queryParameters,
-        options: Options(headers: headers),
+        options: Options(headers: normalizedHeaders),
         data: isFormData ? FormData.fromMap(data) : data,
       );
       return response.data ?? {};
@@ -141,10 +148,13 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> data = const {},
   }) async {
     try {
+      final normalizedHeaders = normalizeHeaders(headers);
+      final isFormData = _checkIsFormData(normalizedHeaders);
+
       final response = await _client.put<Map<String, dynamic>>(
         method,
-        queryParameters: queryParameters,
-        data: data,
+        options: Options(headers: normalizedHeaders),
+        data: isFormData ? FormData.fromMap(data) : data,
       );
       return response.data ?? {};
     } on DioException catch (e) {
@@ -245,8 +255,17 @@ abstract class DioApiClient implements ApiClient {
   }
 
   bool _checkIsFormData(Map<String, dynamic> headers) {
-    final header = headers[Headers.contentTypeHeader];
+    final header = headers[Headers.contentTypeHeader.toLowerCase()];
     return header == Headers.multipartFormDataContentType;
+  }
+
+  Map<String, dynamic> normalizeHeaders(Map<String, dynamic> headers) {
+    return headers.map((key, value) {
+      if (value is String) {
+        return MapEntry(key.toLowerCase(), value.toLowerCase());
+      }
+      return MapEntry(key.toLowerCase(), value);
+    });
   }
 }
 
