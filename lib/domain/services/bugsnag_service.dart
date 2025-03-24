@@ -24,7 +24,10 @@ class BugsnagService implements ExceptionService {
   Future<void> init() async {
     final key = EnvConfig.getEnv(EnvConstants.bugsnagKey, '');
     if (!kDebugMode && !kIsWeb && key.isNotEmpty) {
+      Printer.i('[BugsnagService] activated ($key)');
       await bugsnag.start(apiKey: key);
+    } else {
+      Printer.i('[BugsnagService] activate skipped');
     }
 
     // Устанавливаем глобальный обработчик ошибок Flutter

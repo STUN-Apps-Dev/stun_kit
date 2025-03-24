@@ -4,6 +4,7 @@ import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stun_kit/config/config.dart';
 import 'package:stun_kit/data/services/analytic_service.dart';
+import 'package:stun_kit/library/printer/printer.dart';
 
 /// Сервис для интеграции с AppMetrica.
 ///
@@ -19,7 +20,12 @@ class AppMetricaService implements AnalyticService {
   @override
   Future<void> init() async {
     final key = EnvConfig.getEnv(EnvConstants.appMetricaKey, '');
-    if (kDebugMode || key.isEmpty) return;
+    if (kDebugMode || key.isEmpty) {
+      Printer.i('[AppMetricaService] activate skipped');
+      return;
+    }
+
+    Printer.i('[AppMetricaService] activated ($key)');
 
     await AppMetrica.activate(AppMetricaConfig(key));
   }

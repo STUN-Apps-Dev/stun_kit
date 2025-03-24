@@ -27,8 +27,17 @@ class EnvConfig {
     } else if (T == int) {
       return dotenv.getInt(key, fallback: fallback as int) as T;
     } else if (T == String) {
-      return dotenv.get(key, fallback: fallback as String) as T;
+      final value = dotenv.get(key, fallback: fallback as String);
+      return _normalizeString(value) as T;
     }
     return fallback;
+  }
+
+  static String _normalizeString(String input) {
+    final trimmed = input.trim();
+    if (trimmed == '""' || trimmed == "''") {
+      return '';
+    }
+    return trimmed;
   }
 }
