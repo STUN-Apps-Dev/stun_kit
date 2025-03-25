@@ -11,17 +11,4 @@ class EnvConstants {
   static const developerEmail = 'DEVELOPER_EMAIL';
   static const appMetricaKey = 'APP_METRICA_KEY';
   static const bugsnagKey = 'BUGSNAG_KEY';
-
-  static const List<String> allFields = [
-    siteUrl,
-    privacyPolicyAndroidUrl,
-    privacyPolicyAppStoreUrl,
-    ruStoreAppUrl,
-    ruStoreDeveloperUrl,
-    playStoreAppUrl,
-    playStoreDeveloperUrl,
-    appStoreAppUrl,
-    appStoreDeveloperUrl,
-    developerEmail,
-  ];
 }
