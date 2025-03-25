@@ -26,11 +26,10 @@ class EnvConfig {
       return dotenv.getDouble(key, fallback: fallback as double) as T;
     } else if (T == int) {
       return dotenv.getInt(key, fallback: fallback as int) as T;
-    } else if (T == String) {
+    } else {
       final value = dotenv.get(key, fallback: fallback as String);
       return _normalizeString(value) as T;
     }
-    return fallback;
   }
 
   static String _normalizeString(String input) {
