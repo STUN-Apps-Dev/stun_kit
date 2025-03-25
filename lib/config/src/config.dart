@@ -4,8 +4,8 @@ class EnvConfig {
   EnvConfig._();
 
   /// Загружает переменные окружения из файла .env
-  static Future<void> init() {
-    return dotenv.load(fileName: '.env');
+  static Future<void> init([String fileName = '.env']) {
+    return dotenv.load(fileName: fileName);
   }
 
   /// Возвращает флаг отладки API
