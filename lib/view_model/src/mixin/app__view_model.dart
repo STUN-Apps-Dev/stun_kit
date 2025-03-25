@@ -7,14 +7,12 @@ import 'package:stun_kit/library/url_launcher/url_launcher.dart';
 /// переход к другим приложениям разработчика и отправку email.
 class AppViewModel {
   /// Сервис, предоставляющий данные о приложении (URL политики, URL приложения, email разработчика).
-  late final AppService _appService;
+  final AppService appService;
 
   /// Конструктор [AppViewModel].
   ///
   /// Требует обязательный параметр [appService] для получения данных о приложении.
-  AppViewModel({required AppService appService}) {
-    _appService = appService;
-  }
+  AppViewModel({required this.appService});
 
   /// Запускает URL политики конфиденциальности.
   ///
@@ -25,7 +23,7 @@ class AppViewModel {
   /// - `true` – если URL успешно запущен,
   /// - `false` – в случае ошибки.
   Future<bool> launchPrivacyPolicy() async {
-    final url = await _appService.fetchPrivacyPolicyUrl();
+    final url = await appService.fetchPrivacyPolicyUrl();
     return _launchUrl(url);
   }
 
@@ -36,7 +34,7 @@ class AppViewModel {
   ///
   /// Возвращает [Future<bool>] с результатом операции.
   Future<bool> rateApp() async {
-    final url = await _appService.fetchAppUrl();
+    final url = await appService.fetchAppUrl();
     if (url.isEmpty) return false;
     return _launchUrl(url);
   }
@@ -48,7 +46,7 @@ class AppViewModel {
   ///
   /// Возвращает [Future<bool>] с результатом запуска.
   Future<bool> seeOtherApps() async {
-    final url = await _appService.fetchDeveloperUrl();
+    final url = await appService.fetchDeveloperUrl();
     if (url.isEmpty) return false;
     return _launchUrl(url);
   }
@@ -59,7 +57,7 @@ class AppViewModel {
   ///
   /// Возвращает [Future<bool>] с результатом операции.
   Future<bool> launcEmail() async {
-    final email = await _appService.fetchDeveloperEmail();
+    final email = await appService.fetchDeveloperEmail();
     return UrlLauncher.launchEmail(email);
   }
 

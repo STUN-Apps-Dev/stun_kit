@@ -10,7 +10,7 @@ import 'package:stun_kit/view_model/src/models/app_state.dart';
 /// Уведомляет слушателей об изменениях состояния.
 class AppStateManager extends ChangeNotifier {
   /// Сервис для логирования и обработки исключений.
-  late final ExceptionService _exceptionService;
+  final ExceptionService exceptionService;
 
   /// Текущее состояние приложения.
   AppState _state = const InitialState();
@@ -26,10 +26,9 @@ class AppStateManager extends ChangeNotifier {
   /// Требует обязательного параметра [exceptionService] для обработки исключений,
   /// а также опционального начального состояния [state] (по умолчанию [InitialState]).
   AppStateManager({
-    required ExceptionService exceptionService,
+    required this.exceptionService,
     AppState state = const InitialState(),
   }) {
-    _exceptionService = exceptionService;
     _state = state;
   }
 
@@ -98,7 +97,7 @@ class AppStateManager extends ChangeNotifier {
     T Function(ApiException)? onTimeoutError,
     T Function(ApiException)? onOtherError,
   }) {
-    _exceptionService.capture(error, stackTrace);
+    exceptionService.capture(error, stackTrace);
 
     if (error is ApiException) {
       switch (error.type) {
