@@ -113,8 +113,6 @@ class AppStateManager extends ChangeNotifier {
         case ApiExceptionType.other:
           onOtherError?.call(error);
           break;
-        default:
-          break;
       }
     }
   }

@@ -149,7 +149,7 @@ abstract class AppRouter {
   /// [queryParameters] — опциональные параметры запроса.
   ///
   /// Возвращает результат навигации.
-  static Future<T?> pushNamed<T>(
+  static Future<T?> pushPath<T>(
     String path, {
     Map<String, String> queryParameters = const {},
   }) async {
@@ -158,7 +158,7 @@ abstract class AppRouter {
       queryParameters: queryParameters.isEmpty ? null : queryParameters,
     );
     await closeDialog();
-    return _router.pushNamed(uri.toString());
+    return _router.pushPath(uri.toString());
   }
 
   /// Переходит на указанный маршрут.
@@ -177,7 +177,7 @@ abstract class AppRouter {
   /// [queryParameters] — опциональные параметры запроса.
   ///
   /// Возвращает результат замены маршрута.
-  static Future<T?> replaceNamed<T>(
+  static Future<T?> replacePath<T>(
     String path, {
     Map<String, String> queryParameters = const {},
   }) async {
@@ -186,7 +186,7 @@ abstract class AppRouter {
       queryParameters: queryParameters.isEmpty ? null : queryParameters,
     );
     await closeDialog();
-    return _router.replaceNamed(uri.toString());
+    return _router.replacePath(uri.toString());
   }
 
   /// Заменяет текущий маршрут на новый.
@@ -209,12 +209,12 @@ abstract class AppRouter {
     return context.navigateTo(route);
   }
 
-  /// Выполняет навигацию к маршруту по имени, используя расширение [BuildContext.navigateNamedTo].
+  /// Выполняет навигацию к маршруту по имени, используя расширение [BuildContext.navigateToPath].
   ///
   /// [context] — контекст для навигации.
   /// [path] — путь маршрута.
   /// [queryParameters] — опциональные параметры запроса.
-  static Future<void> navigateNamedTo(
+  static Future<void> navigateToPath(
     BuildContext context,
     String path, {
     Map<String, String> queryParameters = const {},
@@ -225,7 +225,7 @@ abstract class AppRouter {
     );
 
     await closeDialog();
-    return context.navigateNamedTo(uri.toString());
+    return context.navigateToPath(uri.toString());
   }
 }
 
