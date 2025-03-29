@@ -4,6 +4,10 @@
 # По умолчанию используется директория lib, можно переопределить переменной EXPORTS_DIR.
 EXPORTS_DIR ?= lib
 
+
+# all: сначала генерирует экспорты, затем публикует пакет (тесты и dry-run выполняются в publish)
+all: publish
+
 # Запускает тесты
 test:
 	@echo "Запуск тестов..."
@@ -24,6 +28,3 @@ generate_exports:
 	@echo "Запуск скрипта ./scripts/generate_exports.sh для директории $(EXPORTS_DIR)..."
 	chmod +x ./scripts/generate_exports.sh
 	./scripts/generate_exports.sh $(EXPORTS_DIR)
-
-# all: сначала генерирует экспорты, затем публикует пакет (тесты и dry-run выполняются в publish)
-all: publish
