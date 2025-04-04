@@ -11,7 +11,7 @@ fi
 
 # Выполнение dry-run публикации (проверка пакета без фактической публикации)
 echo "Выполняется предварительный dry-run публикации..."
-dart pub publish --dry-run
+flutter pub publish --dry-run
 if [ $? -ne 0 ]; then
   echo "Dry-run публикации не пройден. Публикация отменена."
   exit 1
@@ -19,4 +19,4 @@ fi
 
 # Публикация пакета на pub.dev
 echo "Публикация пакета на pub.dev..."
-dart pub publish
+flutter pub publish
