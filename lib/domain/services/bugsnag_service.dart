@@ -46,9 +46,11 @@ class BugsnagService implements ExceptionService {
   /// [stackTrace] — опциональная трассировка стека, связанная с ошибкой.
   @override
   Future<void> capture(Object exception, StackTrace? stackTrace) async {
+    final key = EnvConfig.getEnv(EnvConstants.bugsnagKey, '');
+
     Printer.e('', error: exception, stackTrace: stackTrace);
 
-    if (!kIsWeb && !kDebugMode) {
+    if (!kDebugMode && !kIsWeb && key.isNotEmpty) {
       return bugsnag.notify(exception, stackTrace);
     }
   }
@@ -60,7 +62,12 @@ class BugsnagService implements ExceptionService {
   /// В режиме отладки метод не выполняет никаких действий.
   @override
   FutureOr<void> markLaunchCompleted() {
-    if (!kDebugMode) return bugsnag.markLaunchCompleted();
+    final key = EnvConfig.getEnv(EnvConstants.bugsnagKey, '');
+
+    if (!kDebugMode && !kIsWeb && key.isNotEmpty) {
+      return bugsnag.markLaunchCompleted();
+    }
+
     return null;
   }
 }

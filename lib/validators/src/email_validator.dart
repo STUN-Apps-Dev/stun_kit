@@ -1,4 +1,4 @@
-import 'package:stun_kit/validators/validator.dart';
+import 'package:stun_kit/validators/src/validator.dart';
 
 /// Валидатор для проверки корректности email-адреса пользователя.
 /// При обнаружении ошибки (пустая строка или неверный формат) возвращается единое сообщение об ошибке.

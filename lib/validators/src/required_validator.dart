@@ -1,4 +1,4 @@
-import 'package:stun_kit/validators/validator.dart';
+import 'package:stun_kit/validators/src/validator.dart';
 
 /// Класс RequiredValidator предназначен для проверки обязательности наличия значения.
 /// Наследуется от Validator и реализует метод валидации для проверки на null или пустое значение.

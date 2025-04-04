@@ -24,28 +24,6 @@ class AppServiceImpl implements AppService {
     return '$version+$buildNumber';
   }
 
-  /// Асинхронно получает URL страницы разработчика приложения.
-  ///
-  /// Если приложение запущено в браузере (Web), возвращается пустая строка.
-  /// Для мобильных платформ используется [StoreChecker] для определения источника установки
-  /// и получения соответствующего URL разработчика из переменных окружения.
-  @override
-  Future<String> fetchDeveloperUrl() async {
-    if (kIsWeb) return '';
-
-    final source = await StoreChecker.getSource;
-    switch (source) {
-      case Source.IS_INSTALLED_FROM_PLAY_STORE:
-        return EnvConfig.getEnv(EnvConstants.playStoreDeveloperUrl, '');
-      case Source.IS_INSTALLED_FROM_APP_STORE:
-        return EnvConfig.getEnv(EnvConstants.appStoreDeveloperUrl, '');
-      case Source.IS_INSTALLED_FROM_RU_STORE:
-        return EnvConfig.getEnv<String>(EnvConstants.ruStoreDeveloperUrl, '');
-      default:
-        return '';
-    }
-  }
-
   /// Асинхронно получает URL страницы приложения.
   ///
   /// Если приложение запущено в браузере (Web), возвращается пустая строка.
@@ -84,11 +62,38 @@ class AppServiceImpl implements AppService {
     }
   }
 
+  /// Асинхронно получает URL страницы разработчика приложения.
+  ///
+  /// Если приложение запущено в браузере (Web), возвращается пустая строка.
+  /// Для мобильных платформ используется [StoreChecker] для определения источника установки
+  /// и получения соответствующего URL разработчика из переменных окружения.
+  @override
+  Future<String> fetchDeveloperStoreUrl() async {
+    if (kIsWeb) return '';
+
+    final source = await StoreChecker.getSource;
+    switch (source) {
+      case Source.IS_INSTALLED_FROM_PLAY_STORE:
+        return EnvConfig.getEnv(EnvConstants.playStoreDeveloperUrl, '');
+      case Source.IS_INSTALLED_FROM_APP_STORE:
+        return EnvConfig.getEnv(EnvConstants.appStoreDeveloperUrl, '');
+      case Source.IS_INSTALLED_FROM_RU_STORE:
+        return EnvConfig.getEnv<String>(EnvConstants.ruStoreDeveloperUrl, '');
+      default:
+        return '';
+    }
+  }
+
   /// Асинхронно получает email разработчика приложения.
   ///
   /// Возвращает значение из переменных окружения, соответствующее email разработчика.
   @override
   Future<String> fetchDeveloperEmail() async {
     return EnvConfig.getEnv(EnvConstants.developerEmail, '');
+  }
+
+  @override
+  Future<String> fetchDeveloperSiteUrl() async {
+    return EnvConfig.getEnv(EnvConstants.developerSiteUrl, '');
   }
 }

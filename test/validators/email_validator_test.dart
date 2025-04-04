@@ -1,4 +1,4 @@
-import 'package:stun_kit/validators/email_validator.dart';
+import 'package:stun_kit/validators/src/email_validator.dart';
 import 'package:test/test.dart';
 
 void main() {

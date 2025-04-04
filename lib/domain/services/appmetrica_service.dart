@@ -20,7 +20,7 @@ class AppMetricaService implements AnalyticService {
   @override
   Future<void> init() async {
     final key = EnvConfig.getEnv(EnvConstants.appMetricaKey, '');
-    if (kDebugMode || key.isEmpty) {
+    if (kDebugMode || kIsWeb || key.isEmpty) {
       Printer.i('[AppMetricaService] activate skipped');
       return;
     }

@@ -1,6 +1,6 @@
 // Автоматически сгенерированные экспорты
 library;
 
-export 'email_validator.dart';
-export 'required_validator.dart';
-export 'validator.dart';
+export 'src/email_validator.dart';
+export 'src/required_validator.dart';
+export 'src/validator.dart';

@@ -24,6 +24,7 @@ class AppViewModel {
   /// - `false` – в случае ошибки.
   Future<bool> launchPrivacyPolicy() async {
     final url = await appService.fetchPrivacyPolicyUrl();
+    if (url.isEmpty) return false;
     return _launchUrl(url);
   }
 
@@ -46,7 +47,7 @@ class AppViewModel {
   ///
   /// Возвращает [Future<bool>] с результатом запуска.
   Future<bool> seeOtherApps() async {
-    final url = await appService.fetchDeveloperUrl();
+    final url = await appService.fetchDeveloperStoreUrl();
     if (url.isEmpty) return false;
     return _launchUrl(url);
   }
@@ -56,9 +57,16 @@ class AppViewModel {
   /// Получает email разработчика через [AppService] и передает его в [UrlLauncher.launchEmail].
   ///
   /// Возвращает [Future<bool>] с результатом операции.
-  Future<bool> launcEmail() async {
+  Future<bool> launchDeveloperEmail() async {
     final email = await appService.fetchDeveloperEmail();
+    if (email.isEmpty) return false;
     return UrlLauncher.launchEmail(email);
+  }
+
+  Future<bool> launchDeveloperSite() async {
+    final url = await appService.fetchDeveloperSiteUrl();
+    if (url.isEmpty) return false;
+    return UrlLauncher.launchUrl(url: url);
   }
 
   /// Вспомогательный метод для запуска URL с внешним приложением.

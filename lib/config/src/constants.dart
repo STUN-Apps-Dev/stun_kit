@@ -1,4 +1,6 @@
 class EnvConstants {
+  const EnvConstants._();
+
   static const siteUrl = 'SITE_URL';
   static const privacyPolicyAndroidUrl = 'PRIVACY_POLICY_ANDROID_URL';
   static const privacyPolicyAppStoreUrl = 'PRIVACY_POLICY_APP_STORE_URL';
@@ -11,4 +13,5 @@ class EnvConstants {
   static const developerEmail = 'DEVELOPER_EMAIL';
   static const appMetricaKey = 'APP_METRICA_KEY';
   static const bugsnagKey = 'BUGSNAG_KEY';
+  static const developerSiteUrl = 'SITE_URL';
 }

@@ -1,4 +1,4 @@
-import 'package:stun_kit/validators/required_validator.dart';
+import 'package:stun_kit/validators/src/required_validator.dart';
 import 'package:test/test.dart';
 
 void main() {
