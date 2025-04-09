@@ -27,8 +27,19 @@ class UrlLauncher {
   /// Открывает приложение почты для отправки письма на указанный email.
   ///
   /// Возвращает [Future<bool>], указывающий на успешность открытия.
-  static Future<bool> launchEmail(String email) async {
-    return launchUrlString('mailto:$email');
+  static Future<bool> launchEmail(
+    String email, {
+    String subject = '',
+    String body = '',
+  }) async {
+    final queryParameters = {
+      if (subject.isNotEmpty) 'subject': subject,
+      if (body.isNotEmpty) 'body': body,
+    };
+
+    final query = Uri(queryParameters: queryParameters).query;
+
+    return launchUrlString('mailto:$email${query.isEmpty ? '' : '?$query'}');
   }
 
   /// Открывает произвольный URL.
