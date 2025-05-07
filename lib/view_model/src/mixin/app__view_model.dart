@@ -5,14 +5,9 @@ import 'package:stun_kit/library/url_launcher/url_launcher.dart';
 ///
 /// Отвечает за запуск политики конфиденциальности, открытие страницы оценки приложения,
 /// переход к другим приложениям разработчика и отправку email.
-class AppViewModel {
+mixin AppViewModel {
   /// Сервис, предоставляющий данные о приложении (URL политики, URL приложения, email разработчика).
-  final AppService appService;
-
-  /// Конструктор [AppViewModel].
-  ///
-  /// Требует обязательный параметр [appService] для получения данных о приложении.
-  AppViewModel({required this.appService});
+  AppService get appService;
 
   /// Запускает URL политики конфиденциальности.
   ///

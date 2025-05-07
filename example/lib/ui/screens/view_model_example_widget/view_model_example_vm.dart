@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:stun_kit/stun_kit.dart';
 
-class ViewModelExampleVM extends AppStateManager {
-  ViewModelExampleVM({required super.exceptionService});
+class ViewModelExampleVM extends ChangeNotifier with AppStateManager {
+  @override
+  final ExceptionService exceptionService;
+
+  ViewModelExampleVM({required this.exceptionService});
 
   Future<void> simulateFetching() async {
     try {

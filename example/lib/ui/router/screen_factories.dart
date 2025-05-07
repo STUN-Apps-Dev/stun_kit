@@ -26,9 +26,6 @@ class ViewModelExampleScreenFactory extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider(
-          create: (_) => AppViewModel(appService: AppServiceImpl()),
-        ),
         ChangeNotifierProvider(
           create: (_) => ViewModelExampleVM(exceptionService: BugsnagService()),
         ),

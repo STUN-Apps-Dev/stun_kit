@@ -8,9 +8,9 @@ import 'package:stun_kit/view_model/src/models/app_state.dart';
 /// Отвечает за хранение и обновление текущего состояния приложения, а также
 /// за обработку исключений и изменение состояния на основе возникших ошибок.
 /// Уведомляет слушателей об изменениях состояния.
-class AppStateManager extends ChangeNotifier {
+mixin AppStateManager on ChangeNotifier {
   /// Сервис для логирования и обработки исключений.
-  final ExceptionService exceptionService;
+  ExceptionService get exceptionService;
 
   /// Текущее состояние приложения.
   AppState _state = const InitialState();
@@ -20,17 +20,6 @@ class AppStateManager extends ChangeNotifier {
 
   /// Флаг, указывающий, что менеджер всё ещё активен (не уничтожен).
   bool _mounted = true;
-
-  /// Конструктор [AppStateManager].
-  ///
-  /// Требует обязательного параметра [exceptionService] для обработки исключений,
-  /// а также опционального начального состояния [state] (по умолчанию [InitialState]).
-  AppStateManager({
-    required this.exceptionService,
-    AppState state = const InitialState(),
-  }) {
-    _state = state;
-  }
 
   /// Устанавливает новое состояние приложения и уведомляет слушателей об изменении.
   ///
