@@ -26,7 +26,7 @@ mixin AppStateManager on ChangeNotifier {
   /// Если новое состояние совпадает с текущим или менеджер уже уничтожен (_mounted == false),
   /// обновление не производится.
   void setState(AppState state) {
-    if (_state == state || !_mounted) return;
+    if (_state == state) return;
     _state = state;
     notifyListeners();
   }
@@ -35,7 +35,7 @@ mixin AppStateManager on ChangeNotifier {
   ///
   /// Используется, когда обновление состояния не требует мгновенного обновления UI.
   void setStateSilent(AppState state) {
-    if (_state == state || !_mounted) return;
+    if (_state == state) return;
     _state = state;
   }
 
@@ -84,7 +84,7 @@ mixin AppStateManager on ChangeNotifier {
     T Function(ApiException)? onAuthError,
     T Function(ApiException)? onBadRequestError,
     T Function(ApiException)? onTimeoutError,
-    T Function(ApiException)? onOtherError,
+    T Function(Object)? onOtherError,
   }) {
     exceptionService.capture(error, stackTrace);
 
@@ -103,13 +103,21 @@ mixin AppStateManager on ChangeNotifier {
           onOtherError?.call(error);
           break;
       }
+    } else {
+      onOtherError?.call(error);
     }
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_mounted) return;
+    super.notifyListeners();
   }
 
   /// Освобождает ресурсы и устанавливает флаг _mounted в false, чтобы предотвратить дальнейшие обновления.
   @override
   void dispose() {
-    super.dispose();
     _mounted = false;
+    super.dispose();
   }
 }

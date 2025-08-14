@@ -80,6 +80,12 @@ class ApiPaginator<T> implements Paginator<T> {
   @override
   List<T> get data => List<T>.from(_data);
 
+  void modifyData(List<T> Function(List<T>) modifier) {
+    final data = modifier(List<T>.from(_data));
+    _data.clear();
+    _data.addAll(data);
+  }
+
   /// Возвращает номер текущей страницы, или 0, если данных нет.
   int get currentPage => _lastResponse?.currentPage ?? 0;
 
