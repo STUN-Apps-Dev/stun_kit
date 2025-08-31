@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:stun_kit/ui/router/router.dart';
 
 /// Основное приложение, настраивающее MaterialApp с поддержкой роутинга, локализаций и тем.
@@ -96,15 +95,12 @@ class _AppObserver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-      // Оборачиваем дочерний виджет в MediaQuery для установки фиксированного масштабирования текста
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          // Фиксируем масштабирование текста на 1.0 для обеспечения консистентности UI
-          textScaler: const TextScaler.linear(1.0),
-        ),
-        child: builder.call(),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        // Фиксируем масштабирование текста на 1.0 для обеспечения консистентности UI
+        textScaler: const TextScaler.linear(1.0),
       ),
+      child: builder.call(),
     );
   }
 }

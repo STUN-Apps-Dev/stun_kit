@@ -1,5 +1,3 @@
-import 'package:example/ui/router/app_router.dart';
-import 'package:example/ui/router/routes.dart';
 import 'package:flutter/material.dart';
 
 class InitialScreen extends StatelessWidget {
@@ -8,13 +6,13 @@ class InitialScreen extends StatelessWidget {
   final _buttons = [
     OutlinedButton(
       onPressed: () {
-        AppRouter.pushPath(AppRoutes.viewModelExample);
+        // AppRouter.pushPath(AppRoutes.viewModelExample);
       },
       child: const Text('ViewModel Example'),
     ),
     OutlinedButton(
       onPressed: () {
-        AppRouter.pushPath(AppRoutes.paginatorExample);
+        // AppRouter.pushPath(AppRoutes.paginatorExample);
       },
       child: const Text('Paginator Example'),
     ),
