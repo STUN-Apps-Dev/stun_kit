@@ -25,6 +25,10 @@ class BaseApp extends StatelessWidget {
   /// Данные темы для тёмного режима.
   final ThemeData? darkTheme;
 
+  final RouterConfig<Object>? routerConfig;
+
+  final Function(BuildContext context, Widget child)? builder;
+
   /// Конструктор [BaseApp].
   ///
   /// По умолчанию поддерживается только русский язык (ru_RU).
@@ -35,16 +39,15 @@ class BaseApp extends StatelessWidget {
     this.themeMode,
     this.theme,
     this.darkTheme,
+    this.routerConfig,
+    this.builder,
   });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       // Настройка роутера с использованием экземпляра AppRouter
-      routerConfig: AppRouter.instance.config(
-        // Логирование навигационных событий через LoggerObserver
-        navigatorObservers: () => [LoggerObserver()],
-      ),
+      routerConfig: routerConfig,
       // Делегаты локализации для Material, Widgets и Cupertino
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -67,8 +70,12 @@ class BaseApp extends StatelessWidget {
       },
       // Оборачиваем дочерние виджеты в _AppObserver для поддержки OKToast и настройки MediaQuery
       builder: (context, child) {
+        final builder = this.builder;
         return _AppObserver(
-          child: child ?? const SizedBox.shrink(),
+          builder: () {
+            final widget = child ?? const SizedBox.shrink();
+            return builder == null ? child : builder.call(context, widget);
+          },
         );
       },
     );
@@ -82,10 +89,10 @@ class BaseApp extends StatelessWidget {
 /// отображение текста в приложении.
 class _AppObserver extends StatelessWidget {
   /// Дочерний виджет, который необходимо отобразить.
-  final Widget child;
+  final Function() builder;
 
   /// Конструктор [_AppObserver].
-  const _AppObserver({required this.child});
+  const _AppObserver({required this.builder});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +103,7 @@ class _AppObserver extends StatelessWidget {
           // Фиксируем масштабирование текста на 1.0 для обеспечения консистентности UI
           textScaler: const TextScaler.linear(1.0),
         ),
-        child: child,
+        child: builder.call(),
       ),
     );
   }
