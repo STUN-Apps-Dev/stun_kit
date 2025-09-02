@@ -21,7 +21,7 @@ class ResponsiveContainer extends StatelessWidget {
   const ResponsiveContainer({
     super.key,
     required this.child,
-    this.margin,
+    this.margin = const EdgeInsets.symmetric(horizontal: 16),
     this.maxWidth,
   });
 
