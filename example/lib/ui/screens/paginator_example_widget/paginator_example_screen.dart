@@ -87,11 +87,11 @@ class _ViewStateObserverWidget extends StatelessWidget {
         if (vm.todos.isNotEmpty) return const SizedBox.shrink();
         return const PageStateWidget.empty();
       },
-      loadingState: (_) => const PageStateWidget.loading(),
-      apiErrorState: (_, __) => const PageStateWidget.server(),
-      badRequestState: (_, __) => const PageStateWidget.badRequest(),
-      noInternetState: (_, __) => const PageStateWidget.noInternet(),
-      internalState: (_, __) => const PageStateWidget.server(
+      onLoadingState: (_) => const PageStateWidget.loading(),
+      onServerExceptionState: (_, __) => const PageStateWidget.server(),
+      onBadRequestExceptionState: (_, __) => const PageStateWidget.badRequest(),
+      onConnectExceptionState: (_, __) => const PageStateWidget.noInternet(),
+      onUnexpectedExceptionState: (_, __) => const PageStateWidget.server(
         title: 'Не придвиденная ошибка',
       ),
     );

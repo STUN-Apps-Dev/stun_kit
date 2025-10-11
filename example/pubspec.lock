@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: appmetrica_plugin
-      sha256: "6834ac24cef2f84433069d3e20b1c3c144ddc1879685c8fe72c3fcd73c78aa7c"
+      sha256: "4a06852c78bf976bcf274a7b9ce4dbecfbd219074e0fb2eac094d59803243c19"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.3.0"
   args:
     dependency: transitive
     description:
@@ -605,6 +605,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.3"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.28.0"
   shelf:
     dependency: transitive
     description:
@@ -688,7 +696,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.1.5"
   term_glyph:
     dependency: transitive
     description:

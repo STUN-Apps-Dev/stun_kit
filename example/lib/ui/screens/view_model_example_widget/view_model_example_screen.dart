@@ -40,15 +40,17 @@ class ViewModelExampleScreen extends StatelessWidget {
 }
 
 class _StateDropDownWidget extends StatelessWidget {
-  static final _exception = ApiException(type: ApiExceptionType.other);
-
   final _states = {
     'InitialState': const InitialState(),
     'LoadingState': const LoadingState(),
-    'ApiErrorState': ApiErrorState(_exception),
-    'BadRequestState': BadRequestState(_exception),
-    'NoInternetState': NoInternetState(_exception),
-    'InternalErrorState': InternalErrorState(_exception),
+    'ServerExceptionState':
+        ServerExceptionState(ServerException(error: 'test', statusCode: -1)),
+    'BadRequestExceptionState': BadRequestExceptionState(
+        BadRequestException(error: 'test', statusCode: -1)),
+    'ConnectExceptionState':
+        ConnectExceptionState(ConnectException(error: 'test', statusCode: -1)),
+    'UnexpectedExceptionState':
+        UnexpectedExceptionState(UnexpectedException(error: 'test')),
   };
 
   _StateDropDownWidget();
@@ -87,14 +89,16 @@ class _ViewStateObserverWidget extends StatelessWidget {
           builder: (_) => const PageStateWidget(
             title: 'Это состояние никогда не отобразится',
           ),
-          initialState: (_) => const PageStateWidget(
+          onInitialState: (_) => const PageStateWidget(
             title: 'Стартовое состояние',
           ),
-          loadingState: (_) => const PageStateWidget.loading(),
-          apiErrorState: (_, __) => const PageStateWidget.server(),
-          badRequestState: (_, __) => const PageStateWidget.badRequest(),
-          noInternetState: (_, __) => const PageStateWidget.noInternet(),
-          internalState: (_, __) => const PageStateWidget.server(
+          onLoadingState: (_) => const PageStateWidget.loading(),
+          onServerExceptionState: (_, __) => const PageStateWidget.server(),
+          onBadRequestExceptionState: (_, __) =>
+              const PageStateWidget.badRequest(),
+          onConnectExceptionState: (_, __) =>
+              const PageStateWidget.noInternet(),
+          onUnexpectedExceptionState: (_, __) => const PageStateWidget.server(
             title: 'Не придвиденная ошибка',
           ),
         ),

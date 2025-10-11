@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:stun_kit/ui/router/router.dart';
 
 /// Основное приложение, настраивающее MaterialApp с поддержкой роутинга, локализаций и тем.
 ///

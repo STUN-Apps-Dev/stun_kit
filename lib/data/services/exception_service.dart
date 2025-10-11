@@ -13,11 +13,11 @@ abstract interface class ExceptionService {
 
   /// Перехватывает исключение и обрабатывает его.
   ///
-  /// [exception] — объект ошибки, которую необходимо обработать.
+  /// [error] — объект ошибки, которую необходимо обработать.
   /// [stackTrace] — опциональная трассировка стека, связанная с ошибкой.
   ///
   /// Возвращает [Future], который завершается после выполнения обработки ошибки.
-  Future<void> capture(Object exception, StackTrace? stackTrace);
+  Future<void> capture(Object error, StackTrace? stackTrace);
 
   /// Отмечает, что процесс запуска приложения завершён.
   ///

@@ -12,8 +12,8 @@ class ViewModelExampleVM extends ChangeNotifier with AppStateManager {
       setState(const LoadingState());
       await Future.delayed(const Duration(seconds: 3));
       setState(const InitialState());
-    } catch (error, _) {
-      setStateByException(error);
+    } catch (error, stackTrace) {
+      setStateByException(error, stackTrace);
     }
   }
 
@@ -22,9 +22,9 @@ class ViewModelExampleVM extends ChangeNotifier with AppStateManager {
       setState(const LoadingState());
       await Future.delayed(const Duration(seconds: 3));
 
-      throw ApiException(type: ApiExceptionType.other);
-    } catch (error, _) {
-      setStateByException(error);
+      throw UnexpectedException(error: 'test exception');
+    } catch (error, stackTrace) {
+      setStateByException(error, stackTrace);
     }
   }
 }

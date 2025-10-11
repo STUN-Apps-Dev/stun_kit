@@ -28,8 +28,6 @@ export 'library/url_launcher/src/url_launcher.dart';
 export 'library/url_launcher/url_launcher.dart';
 export 'models/advert/interstitial_listener.dart';
 export 'models/advert/rewarded_listener.dart';
-export 'models/exceptions/api_exception.dart';
-export 'models/exceptions/app_exception.dart';
 export 'models/exceptions/exceptions.dart';
 export 'responsive/responsive.dart';
 export 'responsive/src/device_type.dart';

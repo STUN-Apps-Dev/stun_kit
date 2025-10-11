@@ -46,8 +46,8 @@ class PaginatorExampleVM extends ChangeNotifier with AppStateManager {
         );
       });
       setState(const InitialState());
-    } catch (error, _) {
-      setStateByException(error);
+    } catch (error, stackTrace) {
+      setStateByException(error, stackTrace);
     }
   }
 
@@ -74,8 +74,8 @@ class PaginatorExampleVM extends ChangeNotifier with AppStateManager {
         );
       });
       setState(const InitialState());
-    } catch (error, _) {
-      setStateByException(error);
+    } catch (error, stackTrace) {
+      setStateByException(error, stackTrace);
     }
   }
 }

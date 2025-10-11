@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stun_kit/data/services/exception_service.dart';
-import 'package:stun_kit/models/exceptions/api_exception.dart';
+import 'package:stun_kit/models/exceptions/exceptions.dart';
 import 'package:stun_kit/view_model/src/models/app_state.dart';
 
 /// Менеджер состояния приложения, реализующий ChangeNotifier.
@@ -41,30 +41,21 @@ mixin AppStateManager on ChangeNotifier {
 
   /// Обновляет состояние приложения на основе возникшего исключения.
   ///
-  /// Если [error] является [ApiException], состояние устанавливается в зависимости
-  /// от типа исключения:
-  /// - [ApiExceptionType.auth] и [ApiExceptionType.other] – состояние ошибки API.
-  /// - [ApiExceptionType.badRequest] – состояние ошибки плохого запроса.
-  /// - [ApiExceptionType.timeout] – состояние отсутствия интернет-соединения.
-  ///
   /// Для остальных исключений устанавливается [InternalErrorState].
-  void setStateByException(Object error) {
-    if (error is ApiException) {
-      switch (error.type) {
-        case ApiExceptionType.auth:
-        case ApiExceptionType.other:
-          setState(ApiErrorState(error));
-          break;
-        case ApiExceptionType.badRequest:
-          setState(BadRequestState(error));
-          break;
-        case ApiExceptionType.timeout:
-          setState(NoInternetState(error));
-          break;
-      }
-    } else {
-      setState(InternalErrorState(error));
-    }
+  void setStateByException(Object error, StackTrace stackTrace) {
+    final err = formatException(error, stackTrace);
+    exceptionService.capture(err, stackTrace);
+
+    handleException(
+      error: err,
+      stackTrace: err.stackTrace,
+      onConnectException: (error) => setState(ConnectExceptionState(error)),
+      onBadRequestException: (error) =>
+          setState(BadRequestExceptionState(error)),
+      onServerException: (error) => setState(ServerExceptionState(error)),
+      onUnexpectedException: (error) =>
+          setState(UnexpectedExceptionState(error)),
+    );
   }
 
   /// Логирует исключение и вызывает соответствующий callback в зависимости от его типа.
@@ -72,40 +63,40 @@ mixin AppStateManager on ChangeNotifier {
   /// [error] – возникшее исключение.
   /// [stackTrace] – стек вызовов, сопровождающий исключение (опционально).
   /// Callback-функции:
-  /// - [onAuthError] – вызывается при ошибке авторизации.
-  /// - [onBadRequestError] – вызывается при ошибке плохого запроса.
-  /// - [onTimeoutError] – вызывается при таймауте запроса.
-  /// - [onOtherError] – вызывается для других типов ошибок.
+  /// - [onAuthException] – вызывается при ошибке авторизации.
+  /// - [onBadRequestException] – вызывается при ошибке плохого запроса.
+  /// - [onConnectException] – вызывается при таймауте запроса.
+  /// - [onUnexpectedException] – вызывается для других типов ошибок.
   ///
   /// Перед выполнением callback-функций исключение передаётся в [_exceptionService] для логирования.
   void handleException<T>({
     required Object error,
     StackTrace? stackTrace,
-    T Function(ApiException)? onAuthError,
-    T Function(ApiException)? onBadRequestError,
-    T Function(ApiException)? onTimeoutError,
-    T Function(Object)? onOtherError,
+    T Function(AuthException)? onAuthException,
+    T Function(BadRequestException)? onBadRequestException,
+    T Function(ConnectException)? onConnectException,
+    T Function(ServerException)? onServerException,
+    T Function(UnexpectedException)? onUnexpectedException,
   }) {
-    exceptionService.capture(error, stackTrace);
-
-    if (error is ApiException) {
-      switch (error.type) {
-        case ApiExceptionType.auth:
-          onAuthError?.call(error);
-          break;
-        case ApiExceptionType.badRequest:
-          onBadRequestError?.call(error);
-          break;
-        case ApiExceptionType.timeout:
-          onTimeoutError?.call(error);
-          break;
-        case ApiExceptionType.other:
-          onOtherError?.call(error);
-          break;
-      }
+    if (error is AuthException) {
+      onAuthException?.call(error);
+    } else if (error is BadRequestException) {
+      onBadRequestException?.call(error);
+    } else if (error is ConnectException) {
+      onConnectException?.call(error);
+    } else if (error is ServerException) {
+      onServerException?.call(error);
+    } else if (error is UnexpectedException) {
+      onUnexpectedException?.call(error);
     } else {
-      onOtherError?.call(error);
+      final err = UnexpectedException(error: error, stackTrace: stackTrace);
+      onUnexpectedException?.call(err);
     }
+  }
+
+  AppException formatException(Object error, StackTrace? stackTrace) {
+    if (error is AppException) return error;
+    return UnexpectedException(error: error, stackTrace: stackTrace);
   }
 
   @override
@@ -114,7 +105,6 @@ mixin AppStateManager on ChangeNotifier {
     super.notifyListeners();
   }
 
-  /// Освобождает ресурсы и устанавливает флаг _mounted в false, чтобы предотвратить дальнейшие обновления.
   @override
   void dispose() {
     _mounted = false;

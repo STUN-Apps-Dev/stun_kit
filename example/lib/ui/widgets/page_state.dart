@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stun_kit/extensions/theme_extensions.dart';
 
 class PageStateWidget extends StatelessWidget {
   final String title;
@@ -89,11 +88,11 @@ class PageStateWidget extends StatelessWidget {
               const SizedBox(height: 16),
             ],
             if (title.isNotEmpty) ...[
-              Text(
-                title,
-                style: context.theme.h3,
-                textAlign: TextAlign.center,
-              ),
+              // Text(
+              //   title,
+              //   style: context.theme.h3,
+              //   textAlign: TextAlign.center,
+              // ),
             ],
             if (description.isNotEmpty) ...[
               const SizedBox(height: 16),

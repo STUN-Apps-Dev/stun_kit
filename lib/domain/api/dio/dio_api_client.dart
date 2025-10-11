@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:stun_kit/config/src/config.dart';
@@ -5,77 +8,21 @@ import 'package:stun_kit/data/api/client.dart';
 import 'package:stun_kit/domain/api/dio/interceptors/log_interceptor.dart';
 import 'package:stun_kit/models/exceptions/exceptions.dart';
 
-/// Абстрактный класс для реализации API клиента с использованием Dio.
-///
-/// [DioApiClient] реализует [ApiClient] и предоставляет методы для выполнения
-/// HTTP запросов (GET, POST, PUT, DELETE) с обработкой исключений.
-/// В случае возникновения ошибок запросов происходит их преобразование в [ApiException].
 abstract class DioApiClient implements ApiClient {
-  /// Экземпляр [Dio] для выполнения HTTP запросов.
   late final Dio _client;
-
-  /// Возвращает текущий экземпляр [Dio] клиента.
   Dio get client => _client;
 
-  /// Метод для дополнительной конфигурации клиента.
-  ///
-  /// Реализация данного метода должна быть предоставлена в подклассах.
   void configure();
 
-  /// Устанавливает экземпляр [Dio] клиента и настраивает его.
-  ///
-  /// Если включён режим отладки API (см. [EnvConfig.isApiDebug]),
-  /// добавляется [CustomLogInterceptor] для логирования запросов.
-  ///
-  /// [client] — экземпляр [Dio], который будет использоваться для выполнения запросов.
   void setClient(Dio client) {
     if (EnvConfig.isApiDebug) {
-      final logInterceptor = CustomLogInterceptor();
-      client.interceptors.add(logInterceptor);
+      client.interceptors.add(CustomLogInterceptor());
     }
-
     _client = client;
   }
 
-  /// Ключ, используемый для извлечения сообщения об ошибке из ответа.
   String get errorKey => 'message';
 
-  /// Выполняет HTTP DELETE запрос.
-  ///
-  /// [method] — URL или путь для запроса.
-  /// [queryParameters] — опциональные параметры запроса.
-  /// [headers] — опциональные заголовки запроса (не используются в данном методе).
-  ///
-  /// Возвращает [Future] с данными ответа в виде [Map<String, dynamic>].
-  /// В случае ошибки выбрасывает [ApiException] с подробностями ошибки.
-  @override
-  Future<Map<String, dynamic>> delete(
-    String method, {
-    Map<String, dynamic> queryParameters = const {},
-    Map<String, dynamic> headers = const {},
-  }) async {
-    try {
-      final normalizedHeaders = normalizeHeaders(headers);
-
-      final response = await _client.delete<Map<String, dynamic>>(
-        method,
-        options: Options(headers: normalizedHeaders),
-        queryParameters: queryParameters,
-      );
-      return response.data ?? {};
-    } on DioException catch (e) {
-      throw await captureException(e);
-    }
-  }
-
-  /// Выполняет HTTP GET запрос.
-  ///
-  /// [method] — URL или путь для запроса.
-  /// [queryParameters] — опциональные параметры запроса.
-  /// [headers] — опциональные заголовки запроса (не используются в данном методе).
-  ///
-  /// Возвращает [Future] с данными ответа в виде [Map<String, dynamic>].
-  /// В случае возникновения ошибки выбрасывает [ApiException] с подробностями ошибки.
   @override
   Future<Map<String, dynamic>> get(
     String method, {
@@ -83,31 +30,17 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> headers = const {},
   }) async {
     try {
-      final normalizedHeaders = normalizeHeaders(headers);
-
-      final response = await _client.get<Map<String, dynamic>>(
+      final res = await _client.get<Map<String, dynamic>>(
         method,
-        options: Options(headers: normalizedHeaders),
         queryParameters: queryParameters,
+        options: Options(headers: _normalizeHeaderKeys(headers)),
       );
-      return response.data ?? {};
+      return res.data ?? const {};
     } on DioException catch (e) {
-      throw await captureException(e);
+      throw await _mapDioToAppException(e);
     }
   }
 
-  /// Выполняет HTTP POST запрос.
-  ///
-  /// [method] — URL или путь для запроса.
-  /// [queryParameters] — опциональные параметры запроса.
-  /// [headers] — опциональные заголовки запроса.
-  /// [data] — данные, передаваемые в теле запроса.
-  ///
-  /// Если заголовок `Content-Type` соответствует multipart/form-data,
-  /// данные преобразуются в [FormData].
-  ///
-  /// Возвращает [Future] с данными ответа в виде [Map<String, dynamic>].
-  /// В случае ошибки выбрасывает [ApiException] с подробностями ошибки.
   @override
   Future<Map<String, dynamic>> post(
     String method, {
@@ -116,30 +49,20 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> data = const {},
   }) async {
     try {
-      final normalizedHeaders = normalizeHeaders(headers);
-      final isFormData = _checkIsFormData(normalizedHeaders);
-
-      final response = await _client.post<Map<String, dynamic>>(
+      final hdr = _normalizeHeaderKeys(headers);
+      final body = _isMultipart(hdr) ? FormData.fromMap(data) : data;
+      final res = await _client.post<Map<String, dynamic>>(
         method,
         queryParameters: queryParameters,
-        options: Options(headers: normalizedHeaders),
-        data: isFormData ? FormData.fromMap(data) : data,
+        options: Options(headers: hdr),
+        data: body,
       );
-      return response.data ?? {};
+      return res.data ?? const {};
     } on DioException catch (e) {
-      throw await captureException(e);
+      throw await _mapDioToAppException(e);
     }
   }
 
-  /// Выполняет HTTP PUT запрос.
-  ///
-  /// [method] — URL или путь для запроса.
-  /// [queryParameters] — опциональные параметры запроса.
-  /// [headers] — опциональные заголовки запроса (не используются в данном методе).
-  /// [data] — данные, передаваемые в теле запроса.
-  ///
-  /// Возвращает [Future] с данными ответа в виде [Map<String, dynamic>].
-  /// В случае возникновения ошибки выбрасывает [ApiException] с подробностями ошибки.
   @override
   Future<Map<String, dynamic>> put(
     String method, {
@@ -148,173 +71,228 @@ abstract class DioApiClient implements ApiClient {
     Map<String, dynamic> data = const {},
   }) async {
     try {
-      final normalizedHeaders = normalizeHeaders(headers);
-      final isFormData = _checkIsFormData(normalizedHeaders);
-
-      final response = await _client.put<Map<String, dynamic>>(
+      final hdr = _normalizeHeaderKeys(headers);
+      final body = _isMultipart(hdr) ? FormData.fromMap(data) : data;
+      final res = await _client.put<Map<String, dynamic>>(
         method,
-        options: Options(headers: normalizedHeaders),
-        data: isFormData ? FormData.fromMap(data) : data,
+        queryParameters: queryParameters,
+        options: Options(headers: hdr),
+        data: body,
       );
-      return response.data ?? {};
+      return res.data ?? const {};
     } on DioException catch (e) {
-      throw await captureException(e);
+      throw await _mapDioToAppException(e);
     }
-  }
-
-  /// Обрабатывает исключения типа [DioException] и преобразует их в [ApiException].
-  ///
-  /// [error] — исключение, возникшее при выполнении HTTP запроса.
-  ///
-  /// Возвращает [Future<ApiException>] с преобразованной ошибкой, учитывая тип ошибки
-  /// и статусный код ответа.
-  Future<ApiException> captureException(DioException error) async {
-    final errors = formatApiException(error.response?.data ?? {});
-
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-        return ApiException(type: ApiExceptionType.timeout);
-      case DioExceptionType.unknown:
-      case DioExceptionType.badResponse:
-        if ([400, 404].contains(error.response?.statusCode)) {
-          return ApiException(
-            type: ApiExceptionType.badRequest,
-            statusCode: error.response?.statusCode ?? -1,
-            error: error.anyMessage(errorKey),
-            stackTrace: error.stackTrace,
-            errors: errors,
-          );
-        } else if ([401].contains(error.response?.statusCode)) {
-          return ApiException(
-            type: ApiExceptionType.auth,
-            statusCode: error.response?.statusCode ?? -1,
-            error: error.anyMessage(errorKey),
-            stackTrace: error.stackTrace,
-            errors: errors,
-          );
-        } else if ([403].contains(error.response?.statusCode)) {
-          return ApiException(
-            type: ApiExceptionType.other,
-            statusCode: error.response?.statusCode ?? -1,
-            error: error.anyMessage(errorKey),
-            stackTrace: error.stackTrace,
-            errors: errors,
-          );
-        } else if (error
-            .anyMessage(errorKey)
-            .contains('XMLHttpRequest error')) {
-          final isConnected = await checkConnection();
-          if (!isConnected) {
-            return ApiException(
-              type: ApiExceptionType.timeout,
-              statusCode: error.response?.statusCode ?? -1,
-              error: error.anyMessage(errorKey),
-              stackTrace: error.stackTrace,
-              errors: errors,
-            );
-          } else {
-            return ApiException(
-              type: ApiExceptionType.other,
-              statusCode: error.response?.statusCode ?? -1,
-              error: error.anyMessage(errorKey),
-              stackTrace: error.stackTrace,
-              errors: errors,
-            );
-          }
-        }
-      default:
-        return ApiException(
-          type: ApiExceptionType.other,
-          statusCode: error.response?.statusCode ?? -1,
-          error: error.anyMessage(errorKey),
-          stackTrace: error.stackTrace,
-          errors: errors,
-        );
-    }
-
-    // Данный код не будет достигнут, но добавлен для полноты.
-    return ApiException(
-      type: ApiExceptionType.other,
-      statusCode: error.response?.statusCode ?? -1,
-      error: error.anyMessage(errorKey),
-      stackTrace: error.stackTrace,
-      errors: errors,
-    );
   }
 
   @override
-  Map<String, dynamic> formatApiException(Object? data) {
-    if (data == null) {
-      return {};
-    } else if (data is Map<String, dynamic>) {
-      return data;
-    } else if (data is Map<dynamic, dynamic>) {
-      return data.map((key, value) => MapEntry('$key', value));
-    }
-    return {};
-  }
-
-  bool _checkIsFormData(Map<String, dynamic> headers) {
-    final header = headers[Headers.contentTypeHeader.toLowerCase()];
-    return header == Headers.multipartFormDataContentType;
-  }
-
-  Map<String, dynamic> normalizeHeaders(Map<String, dynamic> headers) {
-    return headers.map((key, value) {
-      if (value is String) {
-        return MapEntry(key.toLowerCase(), value.toLowerCase());
-      }
-      return MapEntry(key.toLowerCase(), value);
-    });
-  }
-}
-
-/// Расширение для [DioApiClient] с дополнительными вспомогательными методами.
-extension DioApiClientExt on DioApiClient {
-  /// Формирует строку из числового параметра для использования в URL.
-  ///
-  /// [value] — числовой параметр.
-  /// Если [value] равен `null`, возвращается пустая строка,
-  /// иначе возвращается строка вида `"/value"`.
-  String getPathParameters(int? value) {
-    if (value == null) return '';
-    return '/$value';
-  }
-
-  /// Проверяет наличие интернет-соединения.
-  ///
-  /// Возвращает [Future<bool>]:
-  /// - `true`, если устройство подключено к сети,
-  /// - `false`, если отсутствует подключение.
-  Future<bool> checkConnection() async {
+  Future<Map<String, dynamic>> delete(
+    String method, {
+    Map<String, dynamic> queryParameters = const {},
+    Map<String, dynamic> headers = const {},
+  }) async {
     try {
-      final connectivityResult = await Connectivity().checkConnectivity();
-      if (connectivityResult.contains(ConnectivityResult.none)) return false;
-      return true;
+      final res = await _client.delete<Map<String, dynamic>>(
+        method,
+        queryParameters: queryParameters,
+        options: Options(headers: _normalizeHeaderKeys(headers)),
+      );
+      return res.data ?? const {};
+    } on DioException catch (e) {
+      throw await _mapDioToAppException(e);
+    }
+  }
+
+  Future<ServerException> _mapDioToAppException(DioException e) async {
+    final status = e.response?.statusCode;
+    final payload = _toMap(e.response?.data);
+    final message = _pickMessage(e, payload, errorKey);
+
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.connectionError:
+      case DioExceptionType.badCertificate:
+        return ConnectException(
+          error: message.isEmpty ? 'Network timeout' : message,
+          statusCode: status,
+          stackTrace: e.stackTrace,
+          response: payload,
+        );
+      case DioExceptionType.cancel:
+        return ServerException(
+          error: message.isEmpty ? 'Request cancelled' : message,
+          statusCode: status,
+          stackTrace: e.stackTrace,
+          response: payload,
+        );
+      case DioExceptionType.badResponse:
+        if (status == 401 || status == 403) {
+          return AuthException(
+            error: _authMessage(message, status),
+            statusCode: status,
+            stackTrace: e.stackTrace,
+            response: payload,
+          );
+        }
+        if (status == 400 ||
+            status == 404 ||
+            status == 405 ||
+            status == 409 ||
+            status == 413 ||
+            status == 415 ||
+            status == 422) {
+          return BadRequestException(
+            error: message.isEmpty ? 'Bad request' : message,
+            statusCode: status,
+            stackTrace: e.stackTrace,
+            response: payload,
+          );
+        }
+        if (status != null && status >= 500) {
+          return ServerException(
+            error: message.isEmpty ? 'Server error' : message,
+            statusCode: status,
+            stackTrace: e.stackTrace,
+            response: payload,
+          );
+        }
+        return ServerException(
+          error: message.isEmpty ? 'Unexpected response' : message,
+          statusCode: status,
+          stackTrace: e.stackTrace,
+          response: payload,
+        );
+      case DioExceptionType.unknown:
+        final raw = '${e.message ?? ''} ${e.error ?? ''}';
+        final looksLikeXhr = raw.contains('XMLHttpRequest error');
+        final isSocket = e.error is SocketException;
+        if (looksLikeXhr || isSocket) {
+          final online = await _isOnlineSafe();
+          if (!online) {
+            return ConnectException(
+              error: 'No internet connection',
+              statusCode: status,
+              stackTrace: e.stackTrace,
+              response: payload,
+            );
+          }
+          return ServerException(
+            error: message.isEmpty ? 'Network error' : message,
+            statusCode: status,
+            stackTrace: e.stackTrace,
+            response: payload,
+          );
+        }
+        final online = await _isOnlineSafe();
+        if (!online) {
+          return ConnectException(
+            error: 'No internet connection',
+            statusCode: status,
+            stackTrace: e.stackTrace,
+            response: payload,
+          );
+        }
+        return ServerException(
+          error: message.isEmpty ? 'Unknown error' : message,
+          statusCode: status,
+          stackTrace: e.stackTrace,
+          response: payload,
+        );
+    }
+  }
+
+  @override
+  Map<String, dynamic> formatApiException(Object? data) => _toMap(data);
+
+  Map<String, dynamic> _normalizeHeaderKeys(Map<String, dynamic> headers) {
+    final out = <String, dynamic>{};
+    headers.forEach((k, v) => out[k.toLowerCase()] = v);
+    return out;
+  }
+
+  bool _isMultipart(Map<String, dynamic> headers) {
+    final v = headers[Headers.contentTypeHeader] ??
+        headers[Headers.contentTypeHeader.toLowerCase()];
+    if (v == null) return false;
+    return v.toString().toLowerCase().contains('multipart/form-data');
+  }
+
+  Map<String, dynamic> _toMap(Object? data) {
+    if (data == null) return const {};
+    if (data is Map<String, dynamic>) return data;
+    if (data is Map) {
+      return data.map((k, v) => MapEntry(k.toString(), v));
+    }
+    if (data is String) {
+      try {
+        final decoded = jsonDecode(data);
+        if (decoded is Map<String, dynamic>) return decoded;
+        if (decoded is Map) {
+          return decoded.map((k, v) => MapEntry(k.toString(), v));
+        }
+      } catch (_) {}
+      return {'data': data};
+    }
+    return {'data': data.toString()};
+  }
+
+  String _pickMessage(DioException e, Map<String, dynamic> body, String key) {
+    String? take(dynamic v) => _stringOrFirst(v);
+    final candidates = <String?>[
+      take(body[key]),
+      take(body['message']),
+      take(body['error']),
+      take(body['detail']),
+      take(body['errors']),
+      take(body['messages']),
+      e.response?.statusMessage,
+      e.message,
+      e.error?.toString(),
+    ];
+    return candidates.firstWhere((s) => s != null && s.trim().isNotEmpty,
+        orElse: () => '')!;
+  }
+
+  String? _stringOrFirst(dynamic v) {
+    if (v == null) return null;
+    if (v is String) return v;
+    if (v is List && v.isNotEmpty) {
+      return v.first is String ? v.first : v.first?.toString();
+    }
+    if (v is Map && v.isNotEmpty) {
+      final first = v.values.first;
+      if (first is String) return first;
+      if (first is List && first.isNotEmpty) {
+        final f = first.first;
+        return f is String ? f : f?.toString();
+      }
+      return first?.toString();
+    }
+    return v.toString();
+  }
+
+  String _authMessage(String message, int? status) {
+    if (message.trim().isEmpty) {
+      if (status == 401) return 'Unauthorized';
+      if (status == 403) return 'Forbidden';
+    }
+    return message;
+  }
+
+  Future<bool> _isOnlineSafe() async {
+    try {
+      return await checkConnection();
     } catch (_) {
-      return false;
+      return true;
     }
   }
-}
 
-/// Расширение для [DioException] с дополнительными методами для обработки ошибок.
-///
-/// Предоставляет метод для извлечения сообщения об ошибке из ответа.
-extension DioExceptionExt on DioException {
-  /// Извлекает сообщение об ошибке из данных ответа.
-  ///
-  /// [key] — ключ, по которому ищется сообщение об ошибке.
-  /// Если сообщение найдено в данных ответа, оно возвращается;
-  /// иначе используются значения из [statusMessage], [message] или [error].
-  /// Если ни одно значение не найдено, возвращается строковое представление исключения.
-  String anyMessage(String key) {
-    final data = response?.data ?? {};
-    var title = response?.statusMessage ?? message ?? error ?? '$this';
-
-    if (data[key] is String) {
-      title = data[key] ?? title;
-    }
-
-    return '$title';
+  Future<bool> checkConnection() async {
+    final res = await Connectivity().checkConnectivity();
+    return !res.contains(ConnectivityResult.none);
   }
+
+  String getPathParameters(int? value) => value == null ? '' : '/$value';
 }
