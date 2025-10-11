@@ -69,7 +69,7 @@ mixin AppStateManager on ChangeNotifier {
   /// - [onUnexpectedException] – вызывается для других типов ошибок.
   ///
   /// Перед выполнением callback-функций исключение передаётся в [_exceptionService] для логирования.
-  void handleException<T>({
+  T? handleException<T>({
     required Object error,
     StackTrace? stackTrace,
     T Function(AuthException)? onAuthException,
@@ -79,19 +79,19 @@ mixin AppStateManager on ChangeNotifier {
     T Function(UnexpectedException)? onUnexpectedException,
   }) {
     if (error is AuthException) {
-      onAuthException?.call(error);
+      return onAuthException?.call(error);
     } else if (error is BadRequestException) {
-      onBadRequestException?.call(error);
+      return onBadRequestException?.call(error);
     } else if (error is ConnectException) {
-      onConnectException?.call(error);
+      return onConnectException?.call(error);
     } else if (error is ServerException) {
-      onServerException?.call(error);
+      return onServerException?.call(error);
     } else if (error is UnexpectedException) {
       onUnexpectedException?.call(error);
-    } else {
-      final err = UnexpectedException(error: error, stackTrace: stackTrace);
-      onUnexpectedException?.call(err);
     }
+
+    final err = UnexpectedException(error: error, stackTrace: stackTrace);
+    return onUnexpectedException?.call(err);
   }
 
   AppException formatException(Object error, StackTrace? stackTrace) {
