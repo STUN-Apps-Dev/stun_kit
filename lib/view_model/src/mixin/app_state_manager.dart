@@ -9,9 +9,6 @@ import 'package:stun_kit/view_model/src/models/app_state.dart';
 /// за обработку исключений и изменение состояния на основе возникших ошибок.
 /// Уведомляет слушателей об изменениях состояния.
 mixin AppStateManager on ChangeNotifier {
-  /// Сервис для логирования и обработки исключений.
-  ExceptionService get exceptionService;
-
   /// Текущее состояние приложения.
   AppState _state = const InitialState();
 
@@ -44,7 +41,6 @@ mixin AppStateManager on ChangeNotifier {
   /// Для остальных исключений устанавливается [InternalErrorState].
   void setStateByException(Object error, StackTrace stackTrace) {
     final err = formatException(error, stackTrace);
-    exceptionService.capture(err, stackTrace);
 
     handleException(
       error: err,
