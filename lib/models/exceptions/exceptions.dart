@@ -19,6 +19,13 @@ class AppException implements Exception {
   }
 }
 
+class PermissionException extends AppException {
+  PermissionException({
+    required super.error,
+    super.stackTrace,
+  });
+}
+
 class UnexpectedException extends AppException {
   UnexpectedException({
     required super.error,

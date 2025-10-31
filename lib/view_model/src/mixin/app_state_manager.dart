@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stun_kit/data/services/exception_service.dart';
 import 'package:stun_kit/models/exceptions/exceptions.dart';
 import 'package:stun_kit/view_model/src/models/app_state.dart';
 
