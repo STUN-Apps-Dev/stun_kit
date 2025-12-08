@@ -26,6 +26,7 @@ export 'library/printer/src/printer.dart';
 export 'library/url_launcher/src/url_launch_mode.dart';
 export 'library/url_launcher/src/url_launcher.dart';
 export 'library/url_launcher/url_launcher.dart';
+export 'models/advert/app_open_listener.dart';
 export 'models/advert/interstitial_listener.dart';
 export 'models/advert/rewarded_listener.dart';
 export 'models/exceptions/api_exception.dart';
